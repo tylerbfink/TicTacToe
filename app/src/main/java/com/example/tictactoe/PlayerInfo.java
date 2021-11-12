@@ -7,11 +7,11 @@ public class PlayerInfo {
     int playedGames;
     String lastPlayedGame;
 
-    public PlayerInfo(String name, int wins, int playedGames, String lastPlayedGame) {
+    public PlayerInfo(String name) {
         this.name = name;
-        this.wins = wins;
-        this.playedGames = playedGames;
-        this.lastPlayedGame = lastPlayedGame;
+        this.wins = 0;
+        this.playedGames = 0;
+        this.lastPlayedGame = "No play yet";
     }
 
     public void setName(String name) {

@@ -21,6 +21,7 @@ public class Standings extends AppCompatActivity {
     private final String SAVED_PLAYER = "SavedPlayer.txt";
 
     ArrayList<String> standingList = new ArrayList<String>();
+    ArrayList<PlayerInfo> playerListArray = new ArrayList<PlayerInfo>();
 
 
     @Override
@@ -28,12 +29,22 @@ public class Standings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_standings);
 
+        PlayerInfo Tyler = new PlayerInfo("Tyler");
+        PlayerInfo Mark = new PlayerInfo("Mark");
+        playerListArray.add(Tyler);
+        playerListArray.add(Mark);
+
+
         standingList.add("Tyler");
         standingList.add("John");
 
         ListView standingsListView = findViewById(R.id.standings_listView);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.mytextview, standingList);
+        PlayerStandingsAdapter adapter = new PlayerStandingsAdapter(this, playerListArray);
+
+
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.mytextview, playerListArray);
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.mytextview, standingList);
         standingsListView.setAdapter(adapter);
 
 

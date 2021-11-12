@@ -25,9 +25,7 @@ public class MainActivity extends AppCompatActivity {
         ListView mainMenuOptions = findViewById(R.id.option_listView);
         Resources res = getResources();
         String[] options = res.getStringArray(R.array.main_menu_options);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.mytextview, options);
-        //ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, options);
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.mytextview, standingList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.main_view, options);
         mainMenuOptions.setAdapter(adapter);
 
         TextView welcomeBack = (TextView) findViewById(R.id.welcome_back_text);
