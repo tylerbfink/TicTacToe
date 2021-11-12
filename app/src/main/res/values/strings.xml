@@ -4,6 +4,10 @@
     <string name="blank"></string>
     <string name="choose_option">Please choose an option</string>
     <string name="welcome_standings">Standings</string>
+    <string name="heading_name">Name</string>
+    <string name="heading_games_won">Games\nWon</string>
+    <string name="heading_games_played">Games\nPlayed</string>
+    <string name="heading_last_played">Date Last Game Played</string>
 
     <string-array name="main_menu_options">
         <item>Play Game</item>

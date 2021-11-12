@@ -14,15 +14,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Standings extends AppCompatActivity {
 
     private final String SAVED_PLAYER = "SavedPlayer.txt";
 
-    ArrayList<String> standingList = new ArrayList<String>();
     ArrayList<PlayerInfo> playerListArray = new ArrayList<PlayerInfo>();
 
+    String pattern = "dd MMM yyyy - h:mm:ss a";
+    SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+    String date = dateFormat.format(new Date());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +38,14 @@ public class Standings extends AppCompatActivity {
         PlayerInfo Mark = new PlayerInfo("Mark");
         playerListArray.add(Tyler);
         playerListArray.add(Mark);
+        Tyler.setWins(2);
+        Tyler.setLastPlayedGame(date);
 
-
-        standingList.add("Tyler");
-        standingList.add("John");
 
         ListView standingsListView = findViewById(R.id.standings_listView);
 
         PlayerStandingsAdapter adapter = new PlayerStandingsAdapter(this, playerListArray);
 
-
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.mytextview, playerListArray);
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.mytextview, standingList);
         standingsListView.setAdapter(adapter);
 
 

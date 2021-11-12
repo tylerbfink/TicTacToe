@@ -22,12 +22,18 @@ public class PlayerStandingsAdapter extends ArrayAdapter<PlayerInfo> {
 
         // inflate view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.main_view, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.standings_view, parent, false);
         }
 
-        TextView playerName = (TextView) convertView.findViewById(R.id.main_options_view);
+        TextView playerName = (TextView) convertView.findViewById(R.id.standings_name);
+        TextView playerWins = (TextView) convertView.findViewById(R.id.standings_games_won);
+        TextView playerGamesPlayed = (TextView) convertView.findViewById(R.id.standings_games_played);
+        TextView playerLastPlayed = (TextView) convertView.findViewById(R.id.standings_last_played);
 
-        playerName.setText(String.valueOf(player.wins));
+        playerName.setText(player.name);
+        playerWins.setText(String.valueOf(player.wins));
+        playerGamesPlayed.setText(String.valueOf(player.playedGames));
+        playerLastPlayed.setText("Last played: " + player.lastPlayedGame);
 
         return convertView;
     }

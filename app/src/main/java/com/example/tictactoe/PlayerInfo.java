@@ -11,7 +11,7 @@ public class PlayerInfo {
         this.name = name;
         this.wins = 0;
         this.playedGames = 0;
-        this.lastPlayedGame = "No play yet";
+        this.lastPlayedGame = "No games played yet!";
     }
 
     public void setName(String name) {
