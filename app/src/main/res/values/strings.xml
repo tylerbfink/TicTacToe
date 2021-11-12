@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">TicTacToe</string>
+    <string name="welcome_main">Tic Tac Toe</string>
+    <string name="blank"></string>
+    <string name="choose_option">Please choose an option</string>
+    <string name="welcome_standings">Standings</string>
+
+    <string-array name="main_menu_options">
+        <item>Play Game</item>
+        <item>Change Player</item>
+        <item>Standings</item>
+    </string-array>
 </resources>
