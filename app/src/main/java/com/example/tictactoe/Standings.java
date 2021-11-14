@@ -41,14 +41,9 @@ public class Standings extends AppCompatActivity {
         Tyler.setWins(2);
         Tyler.setLastPlayedGame(date);
 
-
         ListView standingsListView = findViewById(R.id.standings_listView);
-
         PlayerStandingsAdapter adapter = new PlayerStandingsAdapter(this, playerListArray);
-
         standingsListView.setAdapter(adapter);
-
-
     }
 
     @Override

@@ -8,6 +8,16 @@
     <string name="heading_games_won">Games\nWon</string>
     <string name="heading_games_played">Games\nPlayed</string>
     <string name="heading_last_played">Date Last Game Played</string>
+    <string name="change_player">Change Player</string>
+    <string name="add_player">Add New Player</string>
+    <string name="remove_player">Remove Player</string>
+    <string name="use_player">Use Selected Player</string>
+    <string name="select_or_add">Select returning player or add new</string>
+    <string name="confirm_delete">Confirm delete</string>
+    <string name="confirm_sure">Confirm you want to delete selected player?</string>
+    <string name="name">Enter name</string>
+    <string name="ok">Add Player</string>
+    <string name="cancel">Cancel</string>
 
     <string-array name="main_menu_options">
         <item>Play Game</item>
