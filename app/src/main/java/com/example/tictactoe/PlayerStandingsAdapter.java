@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class PlayerStandingsAdapter extends ArrayAdapter<PlayerInfo> {
-    public PlayerStandingsAdapter(Context context, ArrayList<PlayerInfo> playerData) {
+public class PlayerStandingsAdapter extends ArrayAdapter<Player> {
+    public PlayerStandingsAdapter(Context context, ArrayList<Player> playerData) {
         super(context, 0, playerData);
     }
 
@@ -18,7 +18,7 @@ public class PlayerStandingsAdapter extends ArrayAdapter<PlayerInfo> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         //get player from array
-        PlayerInfo player = getItem(position);
+        Player player = getItem(position);
 
         // inflate view
         if (convertView == null) {

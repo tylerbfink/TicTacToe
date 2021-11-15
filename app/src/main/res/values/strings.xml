@@ -18,6 +18,7 @@
     <string name="name">Enter name</string>
     <string name="ok">Add Player</string>
     <string name="cancel">Cancel</string>
+    <string name="add_new">Add new player</string>
 
     <string-array name="main_menu_options">
         <item>Play Game</item>

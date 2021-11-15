@@ -3,14 +3,12 @@ package com.example.tictactoe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,7 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ChangePlayer extends AppCompatActivity {
+public class ChangePlayer extends AppCompatActivity
+        implements NewPlayerDialog.DialogListener {
 
     private final String SAVED_PLAYER = "SavedPlayer.txt";
 
@@ -30,60 +29,50 @@ public class ChangePlayer extends AppCompatActivity {
     int playedGames = 0;
     String lastPlayedGame;
 
-    ArrayList<PlayerInfo> playerListArray = new ArrayList<PlayerInfo>();
+    ArrayList<Player> playerListArray = new ArrayList<>();
 
     Button add_player;
     Button remove_player;
     AlertDialog.Builder deleteAlert;
-    AlertDialog.Builder addPlayerAlert;
 
+    PlayerNamesAdapter adapter;
+    ListView playerListView;
+    int listViewSelected = -1;
 
+    String newPlayer = "Mika";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_player);
 
-        PlayerInfo Tyler = new PlayerInfo("Tyler");
-        PlayerInfo Zoey = new PlayerInfo("Zoey");
-        PlayerInfo Shannon = new PlayerInfo("Shannon");
-        PlayerInfo Lynn = new PlayerInfo("Lynn");
+        Player Tyler = new Player("Tyler");
+        Player Zoey = new Player("Zoey");
+        Player Shannon = new Player("Shannon");
+        Player Lynn = new Player("Lynn");
         playerListArray.add(Tyler);
         playerListArray.add(Zoey);
         playerListArray.add(Shannon);
         playerListArray.add(Lynn);
 
-        ListView playerListView = findViewById(R.id.existing_player_list);
-        PlayerNamesAdapter adapter = new PlayerNamesAdapter(this, playerListArray);
+        playerListView = findViewById(R.id.existing_player_list);
+        adapter = new PlayerNamesAdapter(this, playerListArray);
         playerListView.setAdapter(adapter);
+        playerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                listViewSelected = i;
+            }
+        });
 
-        addPlayerAlert = new AlertDialog.Builder(this);
+
         add_player = (Button) findViewById(R.id.add_player);
-
-        final EditText new_player_edittext = (EditText) findViewById(R.id.name_edittext);
-        final View nameView = getLayoutInflater().inflate(R.layout.name_adder,null);
 
         add_player.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                openAddPlayer();
 
-                addPlayerAlert.setMessage("Enter New Player Name");
-                addPlayerAlert.setView(nameView)
-                        .setPositiveButton("Add Player", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                newName = new_player_edittext.getText().toString();
-                                Toast.makeText(getApplicationContext(),
-                                        "Welcome", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                addPlayerAlert.show();
             }
         });
 
@@ -95,14 +84,21 @@ public class ChangePlayer extends AppCompatActivity {
                 deleteAlert.setMessage(R.string.confirm_sure)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(getApplicationContext(),"need to delete player",
-                                        Toast.LENGTH_SHORT).show();
-                                dialog.cancel();
+                                if (listViewSelected != -1) {
+                                    String nameToDelete = playerListArray.get(listViewSelected).getName();
+                                    Toast.makeText(getApplicationContext(), nameToDelete + " deleted!",
+                                            Toast.LENGTH_SHORT).show();
+                                    playerListArray.remove(listViewSelected);
+                                    adapter.notifyDataSetChanged();
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Select a player first.",
+                                            Toast.LENGTH_LONG).show();
+                                }
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
                             }
                         });
 
@@ -140,5 +136,23 @@ public class ChangePlayer extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    //opens the add player editText
+    public void openAddPlayer() {
+        NewPlayerDialog newPlayerDialog = new NewPlayerDialog();
+        newPlayerDialog.setCancelable(false);
+        newPlayerDialog.show(getSupportFragmentManager(), "New Player");
+    }
+
+    //gets and saves the new player name from the NewPlayerDialog class
+    @Override
+    public void getNewPlayer(String newPlayerName) {
+
+            playerListArray.add(0, new Player(newPlayerName));
+            Toast.makeText(getApplicationContext(),
+                    newPlayerName + " added!", Toast.LENGTH_SHORT).show();
+            adapter.notifyDataSetChanged();
+
     }
 }

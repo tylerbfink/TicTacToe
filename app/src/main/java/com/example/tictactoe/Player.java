@@ -1,13 +1,13 @@
 package com.example.tictactoe;
 
-public class PlayerInfo {
+public class Player {
 
     String name;
     int wins;
     int playedGames;
     String lastPlayedGame;
 
-    public PlayerInfo(String name) {
+    public Player(String name) {
         this.name = name;
         this.wins = 0;
         this.playedGames = 0;

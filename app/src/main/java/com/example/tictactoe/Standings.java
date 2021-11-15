@@ -3,11 +3,8 @@ package com.example.tictactoe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,14 +13,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 public class Standings extends AppCompatActivity {
 
     private final String SAVED_PLAYER = "SavedPlayer.txt";
 
-    ArrayList<PlayerInfo> playerListArray = new ArrayList<PlayerInfo>();
+    ArrayList<Player> playerListArray = new ArrayList<Player>();
 
     String pattern = "dd MMM yyyy - h:mm:ss a";
     SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
@@ -34,8 +30,8 @@ public class Standings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_standings);
 
-        PlayerInfo Tyler = new PlayerInfo("Tyler");
-        PlayerInfo Mark = new PlayerInfo("Mark");
+        Player Tyler = new Player("Tyler");
+        Player Mark = new Player("Mark");
         playerListArray.add(Tyler);
         playerListArray.add(Mark);
         Tyler.setWins(2);
