@@ -15,9 +15,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 public class NewPlayerDialog extends AppCompatDialogFragment {
 
-    private EditText editPlayerName;
+    private TextInputEditText editPlayerName;
     private DialogListener listener;
 
     @Override
@@ -27,7 +30,6 @@ public class NewPlayerDialog extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.name_adder, null);
 
         builder.setView(view)
-                .setTitle(R.string.add_new)
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -41,7 +43,7 @@ public class NewPlayerDialog extends AppCompatDialogFragment {
                     }
                 });
 
-        editPlayerName = view.findViewById(R.id.edit_playername);
+        editPlayerName = view.findViewById(R.id.input_edit_text);
         return builder.create();
     }
 

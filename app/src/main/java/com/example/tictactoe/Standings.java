@@ -30,12 +30,7 @@ public class Standings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_standings);
 
-        Player Tyler = new Player("Tyler");
-        Player Mark = new Player("Mark");
-        playerListArray.add(Tyler);
-        playerListArray.add(Mark);
-        Tyler.setWins(2);
-        Tyler.setLastPlayedGame(date);
+        readFile();
 
         ListView standingsListView = findViewById(R.id.standings_listView);
         PlayerStandingsAdapter adapter = new PlayerStandingsAdapter(this, playerListArray);
@@ -61,15 +56,18 @@ public class Standings extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
 
-            String playerInfo = null;
+            String sLine = null;
 
             try {
-                while ((playerInfo = br.readLine()) != null) {
-                    //timestampArrayList.add(sLine);
+                while ((sLine = br.readLine()) != null) {
+                    String[] tempPlayer = sLine.split(",");
+                    playerListArray.add(0, new Player(tempPlayer[0]));
+                    playerListArray.get(0).wins = Integer.valueOf(tempPlayer[1]);
+                    playerListArray.get(0).playedGames = Integer.valueOf(tempPlayer[2]);
+                    playerListArray.get(0).lastPlayedGame = tempPlayer[3];
                 }
             } catch (IOException e) {
                 e.printStackTrace();

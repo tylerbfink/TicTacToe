@@ -17,8 +17,10 @@
     <string name="confirm_sure">Confirm you want to delete selected player?</string>
     <string name="name">Enter name</string>
     <string name="ok">Add Player</string>
+    <string name="enter_name">New player Name</string>
     <string name="cancel">Cancel</string>
     <string name="add_new">Add new player</string>
+    <string name="reset">Start New Game</string>
 
     <string-array name="main_menu_options">
         <item>Play Game</item>
