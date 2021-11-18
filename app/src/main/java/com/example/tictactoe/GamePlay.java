@@ -3,6 +3,7 @@ package com.example.tictactoe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -160,6 +161,7 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    //resets game board for new game
     private void resetBoard() {
         for (int index = 0; index < 9; index++) {
             playList[index] = 0;
@@ -176,9 +178,18 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         button_eight.setText(R.string.blank);
     }
 
+    //checks game board for possible winner
     private void checkForWinner() {
-        if (playList[0] != 0 && playList[0] == playList[1] && playList[0] == playList[2] ||
-                playList[0] != 0 && playList[0] == playList[4] && playList[0] == playList[8] ||
+        //sets colour to enhance winnings squares
+        GradientDrawable gd = new GradientDrawable();
+        gd.setStroke(1, 0xFF000000);
+
+        if (playList[0] != 0 && playList[0] == playList[1] && playList[0] == playList[2]) {
+            button_zero.setBackground(gd);
+            button_one.setBackground(gd);
+            button_two.setBackground(gd);
+        }
+        else if (playList[0] != 0 && playList[0] == playList[4] && playList[0] == playList[8] ||
                 playList[0] != 0 && playList[0] == playList[3] && playList[0] == playList[6] ||
                 playList[1] != 0 && playList[1] == playList[4] && playList[1] == playList[7] ||
                 playList[2] != 0 && playList[2] == playList[5] && playList[2] == playList[8] ||
@@ -191,6 +202,7 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    //checks to see if square clicked is available to play
     private boolean checkIfOpen(View view) {
         boolean result = false;
 
