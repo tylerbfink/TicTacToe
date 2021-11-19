@@ -13,15 +13,14 @@
         <item name="android:textSize">48sp</item>
         <item name="android:fontFamily">@font/nunito</item>
         <item name="android:textStyle">bold</item>
-        <item name="colorAccent">#F2B8B1</item>
-        <item name="android:backgroundTint">#179981</item>
+        <item name="backgroundTint">#179981</item>
     </style>
 
     <style name="regular_button" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/nunito</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">#FFFFFF</item>
-        <item name="backgroundTint">#179981</item>
+        <item name="backgroundTint">#156958</item>
     </style>
 
 </resources>

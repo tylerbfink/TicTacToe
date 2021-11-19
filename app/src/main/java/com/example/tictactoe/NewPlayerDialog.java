@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+//popup class for adding new player
 public class NewPlayerDialog extends AppCompatDialogFragment {
 
     private TextInputEditText editPlayerName;

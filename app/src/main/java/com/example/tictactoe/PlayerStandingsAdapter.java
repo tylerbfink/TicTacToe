@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+//custom adapter for standings listView
 public class PlayerStandingsAdapter extends ArrayAdapter<Player> {
     public PlayerStandingsAdapter(Context context, ArrayList<Player> playerData) {
         super(context, 0, playerData);

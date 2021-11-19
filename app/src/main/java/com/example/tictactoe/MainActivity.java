@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    String returning_player_name = "Player";
+    String returningPlayerName = "Player";
+    int returningPlayerPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,10 @@ public class MainActivity extends AppCompatActivity {
         mainMenuOptions.setAdapter(adapter);
 
         TextView welcomeBack = (TextView) findViewById(R.id.welcome_back_text);
-        welcomeBack.setText("Welcome back " + returning_player_name + "!");
+        if (ChangePlayer.getPlayer("CURRENT_PLAYER", getBaseContext()) != -1) {
+            returningPlayerPosition = Integer.valueOf(ChangePlayer.getPlayer("CURRENT_PLAYER", getBaseContext()));
+        }
+        welcomeBack.setText("Welcome back " + returningPlayerPosition + "!");
 
 
         //listener for click of listView item
@@ -54,5 +58,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
 

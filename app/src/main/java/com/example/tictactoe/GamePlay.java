@@ -1,16 +1,18 @@
 package com.example.tictactoe;
 
+import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class GamePlay extends AppCompatActivity implements View.OnClickListener {
@@ -20,13 +22,24 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
     Button button_six, button_seven, button_eight;
     Button button_reset_board;
 
-    int[] playList = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+    TextView play_text;
+
+    String playerNameOne = "Tyler";
+    String playerNameTwo = "Android";
+
+    int[] playList = {0, 0, 0, 0, 0, 0, 0, 0, 0};  //played squares array
+    int[] winningsSquares; //winnings squares to set highlight on win
+    boolean winner = false;
     int playCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play);
+
+        //text to indicate the players turn
+        play_text = findViewById(R.id.play_text);
+        play_text.setText(playerNameOne + getString(R.string.your_turn));
 
         //assigns button from .xml buttons
         button_zero = findViewById(R.id.button_zero);
@@ -40,6 +53,7 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         button_eight = findViewById(R.id.button_eight);
         button_reset_board = findViewById(R.id.button_reset_board);
 
+        //onclick for play grid
         button_zero.setOnClickListener(this);
         button_one.setOnClickListener(this);
         button_two.setOnClickListener(this);
@@ -50,7 +64,6 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         button_seven.setOnClickListener(this);
         button_eight.setOnClickListener(this);
         button_reset_board.setOnClickListener(this);
-
     }
 
     @Override
@@ -63,10 +76,10 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.button_reset_board) {
+        if (view.getId() == R.id.button_reset_board) {  //resets game
             resetBoard();
         }
-        else if (playCount < 9 && checkIfOpen(view)) {
+        else if (playCount < 9 && checkIfOpen(view)) { //places players mark on board
             switch (view.getId()) {
                 case R.id.button_zero:
                     button_zero.setText("X");
@@ -111,6 +124,7 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    // calculates androids move
     public void computerPlay() {
         if (playCount < 9) {
             Random generator = new Random();
@@ -118,7 +132,7 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
             while (playList[nextPlay] != 0) {
                 nextPlay = generator.nextInt(9);
             }
-            switch (nextPlay) {
+            switch (nextPlay) {  //sets androids play on grid
                 case 0:
                     button_zero.setText("O");
                     playList[0] = 2;
@@ -167,6 +181,9 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
             playList[index] = 0;
         }
         playCount = 0;
+        winner = false;
+        winningsSquares = new int[]{0, 4, 8};
+
         button_zero.setText(R.string.blank);
         button_one.setText(R.string.blank);
         button_two.setText(R.string.blank);
@@ -176,29 +193,113 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         button_six.setText(R.string.blank);
         button_seven.setText(R.string.blank);
         button_eight.setText(R.string.blank);
+
+        resetSquareColours();
+
+        play_text.setText(playerNameOne + getString(R.string.your_turn));
     }
 
     //checks game board for possible winner
     private void checkForWinner() {
-        //sets colour to enhance winnings squares
-        GradientDrawable gd = new GradientDrawable();
-        gd.setStroke(1, 0xFF000000);
 
         if (playList[0] != 0 && playList[0] == playList[1] && playList[0] == playList[2]) {
-            button_zero.setBackground(gd);
-            button_one.setBackground(gd);
-            button_two.setBackground(gd);
+            winningsSquares = new int[]{0, 1, 2};
+            winner = true;
         }
-        else if (playList[0] != 0 && playList[0] == playList[4] && playList[0] == playList[8] ||
-                playList[0] != 0 && playList[0] == playList[3] && playList[0] == playList[6] ||
-                playList[1] != 0 && playList[1] == playList[4] && playList[1] == playList[7] ||
-                playList[2] != 0 && playList[2] == playList[5] && playList[2] == playList[8] ||
-                playList[2] != 0 &&  playList[2] == playList[4] && playList[2] == playList[6] ||
-                playList[3] != 0 && playList[3] == playList[4] && playList[3] == playList[5] ||
-                playList[6] != 0 && playList[6] == playList[7] && playList[6] == playList[8]) {
+        else if (playList[0] != 0 && playList[0] == playList[4] && playList[0] == playList[8]) {
+            winningsSquares = new int[]{0, 4, 8};
+            winner = true;
+        }
+        else if (playList[0] != 0 && playList[0] == playList[3] && playList[0] == playList[6]) {
+            winningsSquares = new int[]{0, 3, 6};
+            winner = true;
+        }
+        else if (playList[1] != 0 && playList[1] == playList[4] && playList[1] == playList[7]) {
+            winningsSquares = new int[]{1, 4, 7};
+            winner = true;
+        }
+
+        else if (playList[2] != 0 && playList[2] == playList[5] && playList[2] == playList[8]) {
+            winningsSquares = new int[]{2, 5, 8};
+            winner = true;
+        }
+
+        else if (playList[2] != 0 &&  playList[2] == playList[4] && playList[2] == playList[6]) {
+            winningsSquares = new int[]{2, 4, 6};
+            winner = true;
+        }
+
+        else if (playList[3] != 0 && playList[3] == playList[4] && playList[3] == playList[5]) {
+            winningsSquares = new int[]{3, 4, 5};
+            winner = true;
+        }
+
+        else if (playList[6] != 0 && playList[6] == playList[7] && playList[6] == playList[8]) {
+            winningsSquares = new int[]{6, 7, 8};
+            winner = true;
+        }
+
+        if (winner) {  //items to process if winner
+            String winningToken = "";
             playCount = 9;
-            Toast.makeText(getApplicationContext(), "Winner!",
+
+            setWinningSquares();  //highlights winnings squares
+
+            if (playList[winningsSquares[0]] == 1) {
+                winningToken = "X's win!";
+                play_text.setText(playerNameOne + " Wins!");
+            }
+            else if (playList[winningsSquares[0]] == 2) {
+                winningToken = "O's win!";
+                play_text.setText(playerNameTwo + " Wins!");
+            }
+
+            Toast.makeText(getApplicationContext(), winningToken,
                     Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //sets winnings squares stand out colours
+    private void setWinningSquares() {
+        for (int index = 0; index < 3; index++) {
+            switch (winningsSquares[index]) {
+                case 0:
+                    button_zero.setBackgroundTintList(ColorStateList.valueOf
+                            (Color.parseColor("#E04C59")));
+                    break;
+                case 1:
+                    button_one.setBackgroundTintList(ColorStateList.valueOf
+                            (Color.parseColor("#E04C59")));
+                    break;
+                case 2:
+                    button_two.setBackgroundTintList(ColorStateList.valueOf
+                            (Color.parseColor("#E04C59")));
+                    break;
+                case 3:
+                    button_three.setBackgroundTintList(ColorStateList.valueOf
+                            (Color.parseColor("#E04C59")));
+                    break;
+                case 4:
+                    button_four.setBackgroundTintList(ColorStateList.valueOf
+                            (Color.parseColor("#E04C59")));
+                    break;
+                case 5:
+                    button_five.setBackgroundTintList(ColorStateList.valueOf
+                            (Color.parseColor("#E04C59")));
+                    break;
+                case 6:
+                    button_six.setBackgroundTintList(ColorStateList.valueOf
+                            (Color.parseColor("#E04C59")));
+                    break;
+                case 7:
+                    button_seven.setBackgroundTintList(ColorStateList.valueOf
+                            (Color.parseColor("#E04C59")));
+                    break;
+                case 8:
+                    button_eight.setBackgroundTintList(ColorStateList.valueOf
+                            (Color.parseColor("#E04C59")));
+                    break;
+            }
         }
     }
 
@@ -245,5 +346,18 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
                 break;
         }
         return result;
+    }
+
+    //resets all squares for new game
+    private void resetSquareColours() {
+        button_zero.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#179981")));
+        button_one.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#179981")));
+        button_two.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#179981")));
+        button_three.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#179981")));
+        button_four.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#179981")));
+        button_five.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#179981")));
+        button_six.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#179981")));
+        button_seven.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#179981")));
+        button_eight.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#179981")));
     }
 }

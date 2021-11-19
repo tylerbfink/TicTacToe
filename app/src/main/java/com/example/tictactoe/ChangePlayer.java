@@ -3,40 +3,30 @@ package com.example.tictactoe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ChangePlayer extends AppCompatActivity
         implements NewPlayerDialog.DialogListener {
 
-    private final String SAVED_PLAYER = "SavedPlayer.txt";
+    int currentPlayer;
 
-    String newName;
-    int wins = 0;
-    int playedGames = 0;
-    String lastPlayedGame;
+    PlayerIO playerData = new PlayerIO(); //new instance of player input/output
+    ArrayList<Player> playerListArray; //common app array that holds players & stats
 
-    ArrayList<Player> playerListArray = new ArrayList<>();
+    Button add_player, remove_player, use_selected;
 
-    Button add_player;
-    Button remove_player;
     AlertDialog.Builder deleteAlert;
 
     PlayerNamesAdapter adapter;
@@ -48,8 +38,10 @@ public class ChangePlayer extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_player);
 
-        readFile();
+        //retrieves players from saved data file
+        playerListArray = playerData.readFile(getApplicationContext());
 
+        //builds player listView
         playerListView = findViewById(R.id.existing_player_list);
         adapter = new PlayerNamesAdapter(this, playerListArray);
         playerListView.setAdapter(adapter);
@@ -57,9 +49,21 @@ public class ChangePlayer extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 listViewSelected = i;
+                currentPlayer = i;
             }
         });
 
+        //use selected listener
+        use_selected = (Button) findViewById(R.id.use_selected);
+        use_selected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                savePlayer("CURRENT_PLAYER", currentPlayer, getBaseContext());
+                onBackPressed();
+            }
+        });
+
+        //add player listener
         add_player = (Button) findViewById(R.id.add_player);
         add_player.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +72,7 @@ public class ChangePlayer extends AppCompatActivity
             }
         });
 
+        //pop up alert to confirm delete player
         deleteAlert = new AlertDialog.Builder(this);
         remove_player = (Button) findViewById(R.id.remove_player);
         remove_player.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +86,7 @@ public class ChangePlayer extends AppCompatActivity
                                     Toast.makeText(getApplicationContext(), nameToDelete + " deleted!",
                                             Toast.LENGTH_SHORT).show();
                                     playerListArray.remove(listViewSelected);
+                                    playerData.writeFile(getApplicationContext(), playerListArray);
                                     adapter.notifyDataSetChanged();
                                 }
                                 else {
@@ -108,66 +114,6 @@ public class ChangePlayer extends AppCompatActivity
         finish();
     }
 
-    //writes player data to file
-    private void writeFile() {
-        try {
-            FileOutputStream fos = openFileOutput(SAVED_PLAYER, MODE_PRIVATE | MODE_APPEND);
-
-            //build name/wins/games played/last play date string
-            String pattern = "dd MMM yyyy - h:mm:ss a";
-            SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
-            lastPlayedGame = dateFormat.format(new Date());
-
-            String saveInfo = playerListArray.get(0).name + "," +
-                                playerListArray.get(0).wins + "," +
-                                playerListArray.get(0).playedGames + "," +
-                                playerListArray.get(0).lastPlayedGame + "\n";
-
-            fos.write(saveInfo.getBytes());
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //reads file and updates ListView in Verification activity
-    private void readFile() {
-
-        if (fileExists(SAVED_PLAYER)) {
-            FileInputStream fis = null;
-            try {
-                fis = openFileInput(SAVED_PLAYER);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-
-            String sLine = null;
-
-            try {
-                while ((sLine = br.readLine()) != null) {
-                    String[] tempPlayer = sLine.split(",");
-                    playerListArray.add(0, new Player(tempPlayer[0]));
-                    playerListArray.get(0).wins = Integer.valueOf(tempPlayer[1]);
-                    playerListArray.get(0).playedGames = Integer.valueOf(tempPlayer[2]);
-                    playerListArray.get(0).lastPlayedGame = tempPlayer[3];
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    //checks if file exists
-    public boolean fileExists (String fileName) {
-        File file = getBaseContext().getFileStreamPath(fileName);
-        return file.exists();
-    }
-
     //opens the add player editText
     public void openAddPlayer() {
         NewPlayerDialog newPlayerDialog = new NewPlayerDialog();
@@ -182,8 +128,21 @@ public class ChangePlayer extends AppCompatActivity
             playerListArray.add(0, new Player(newPlayerName));
             Toast.makeText(getApplicationContext(),
                     newPlayerName + " added!", Toast.LENGTH_SHORT).show();
-            writeFile();
+            playerData.writeFile(getApplicationContext(), playerListArray);
             adapter.notifyDataSetChanged();
+    }
 
+    //saves user for all activities
+    public static void savePlayer(String key, int value, Context context) {
+        SharedPreferences playerName = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = playerName.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
+
+    //retrieves selected user all activities
+    public static int getPlayer(String key, Context context) {
+        SharedPreferences playerName = PreferenceManager.getDefaultSharedPreferences(context);
+        return playerName.getInt(key, -1 );
     }
 }

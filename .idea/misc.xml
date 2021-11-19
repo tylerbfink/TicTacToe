@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/tyler/AndroidStudioProjects/TicTacToe/app/src/main/res/layout/activity_main.xml" value="0.34148550724637683" />
+        <entry key="..\:/Users/tyler/Documents/CS2161/TicTacToe/app/src/main/res/drawable/game_won_background.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/tyler/Documents/CS2161/TicTacToe/app/src/main/res/drawable/gradient_background.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/tyler/Documents/CS2161/TicTacToe/app/src/main/res/drawable/rounded_corners.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/tyler/Documents/CS2161/TicTacToe/app/src/main/res/layout/activity_change_player.xml" value="0.22" />

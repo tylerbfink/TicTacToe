@@ -1,5 +1,6 @@
 package com.example.tictactoe;
 
+//class to build players held in player array
 public class Player {
 
     String name;

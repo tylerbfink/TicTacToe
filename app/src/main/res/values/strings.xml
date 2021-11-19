@@ -21,6 +21,7 @@
     <string name="cancel">Cancel</string>
     <string name="add_new">Add new player</string>
     <string name="reset">Start New Game</string>
+    <string name="your_turn">\'s turn.</string>
 
     <string-array name="main_menu_options">
         <item>Play Game</item>
