@@ -3,16 +3,26 @@ package com.example.tictactoe;
 //class to build players held in player array
 public class Player {
 
+    int playerID;
     String name;
     int wins;
     int playedGames;
     String lastPlayedGame;
 
-    public Player(String name) {
+    public Player(int playerID, String name) {
+        this.playerID = playerID;
         this.name = name;
         this.wins = 0;
         this.playedGames = 0;
         this.lastPlayedGame = "No games played yet!";
+    }
+
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
+    }
+
+    public int getPlayerID() {
+        return playerID;
     }
 
     public void setName(String name) {

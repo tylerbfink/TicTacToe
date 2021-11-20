@@ -12,7 +12,7 @@
     <string name="add_player">Add New Player</string>
     <string name="remove_player">Remove Player</string>
     <string name="use_player">Use Selected Player</string>
-    <string name="select_or_add">Select returning player or add new</string>
+    <string name="select_or_add">Select player or add new</string>
     <string name="confirm_delete">Confirm delete</string>
     <string name="confirm_sure">Confirm you want to delete selected player?</string>
     <string name="name">Enter name</string>
@@ -21,7 +21,9 @@
     <string name="cancel">Cancel</string>
     <string name="add_new">Add new player</string>
     <string name="reset">Start New Game</string>
-    <string name="your_turn">\'s turn.</string>
+    <string name="your_turn">\'s turn!</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="welcome_new">Welcome new player!</string>
 
     <string-array name="main_menu_options">
         <item>Play Game</item>

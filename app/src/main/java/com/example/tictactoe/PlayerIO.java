@@ -20,12 +20,9 @@ public class PlayerIO  {
 
     private final String SAVED_PLAYER = "SavedPlayer.txt";
 
-
     ArrayList<Player> playerListArray = new ArrayList();
 
-
     String lastPlayedGame;
-
 
     //reads file and updates ListView in Verification activity
     public ArrayList<Player> readFile(Context context) {
@@ -46,16 +43,16 @@ public class PlayerIO  {
 
             String sLine = null;
 
-
             try {
                 while ((sLine = br.readLine()) != null) {
 
                     String[] tempReadPlayer = sLine.split(",");
 
-                    Player tempPlayer = new Player(tempReadPlayer[0]);
-                    tempPlayer.setWins(Integer.valueOf(tempReadPlayer[1]));
-                    tempPlayer.setPlayedGames(Integer.valueOf(tempReadPlayer[2]));
-                    tempPlayer.setLastPlayedGame(tempReadPlayer[3]);
+                    Player tempPlayer = new Player(Integer.valueOf(tempReadPlayer[0]),
+                            tempReadPlayer[1]);
+                    tempPlayer.setWins(Integer.valueOf(tempReadPlayer[2]));
+                    tempPlayer.setPlayedGames(Integer.valueOf(tempReadPlayer[3]));
+                    tempPlayer.setLastPlayedGame(tempReadPlayer[4]);
 
                     playerListArray.add(0, tempPlayer);
                 }
@@ -90,7 +87,8 @@ public class PlayerIO  {
 
                 Player tempPlayer = (Player) playerListArray.get(count);
 
-                String saveInfo = tempPlayer.getName() + "," +
+                String saveInfo = tempPlayer.getPlayerID() + "," +
+                        tempPlayer.getName() + "," +
                         tempPlayer.getWins() + "," +
                         tempPlayer.getPlayedGames() + "," +
                         tempPlayer.getLastPlayedGame() + "\n";
@@ -108,9 +106,13 @@ public class PlayerIO  {
 
     }
 
+    public int generatePlayerID() {
+        return playerListArray.size() + 1;
+    }
+
     public void first() {
         String newPlayerName = "Player1";
-        playerListArray.add(0, new Player(newPlayerName));
+        playerListArray.add(0, new Player(generatePlayerID(), newPlayerName));
     }
 }
 

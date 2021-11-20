@@ -20,7 +20,8 @@ import java.util.ArrayList;
 public class ChangePlayer extends AppCompatActivity
         implements NewPlayerDialog.DialogListener {
 
-    int currentPlayer;
+    String currentPlayerName;
+    int currentPlayerID;
 
     PlayerIO playerData = new PlayerIO(); //new instance of player input/output
     ArrayList<Player> playerListArray; //common app array that holds players & stats
@@ -49,7 +50,8 @@ public class ChangePlayer extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 listViewSelected = i;
-                currentPlayer = i;
+                currentPlayerName = playerListArray.get(i).getName();
+                currentPlayerID = playerListArray.get(i).getPlayerID();
             }
         });
 
@@ -58,8 +60,16 @@ public class ChangePlayer extends AppCompatActivity
         use_selected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                savePlayer("CURRENT_PLAYER", currentPlayer, getBaseContext());
-                onBackPressed();
+                if (listViewSelected != -1) {
+                    savePlayer("CURRENT_PLAYER", currentPlayerName,
+                            "CURRENT_ID", currentPlayerID, getBaseContext());
+
+                    onBackPressed();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"Please select a player first!",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -125,24 +135,35 @@ public class ChangePlayer extends AppCompatActivity
     @Override
     public void getNewPlayer(String newPlayerName) {
 
-            playerListArray.add(0, new Player(newPlayerName));
+            playerListArray.add(0, new Player(playerData.generatePlayerID(), newPlayerName));
             Toast.makeText(getApplicationContext(),
                     newPlayerName + " added!", Toast.LENGTH_SHORT).show();
             playerData.writeFile(getApplicationContext(), playerListArray);
             adapter.notifyDataSetChanged();
     }
 
-    //saves user for all activities
-    public static void savePlayer(String key, int value, Context context) {
-        SharedPreferences playerName = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = playerName.edit();
-        editor.putInt(key, value);
-        editor.commit();
+    //saves player name and ID in sharedPreference
+    public static void savePlayer(String playerNameKey, String playerName,
+                                  String playerIDKey, int playerID, Context context) {
+        SharedPreferences playerNameShared = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences playerIDShared = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor playerNameEditor = playerNameShared.edit();
+        SharedPreferences.Editor playerIDEditor = playerIDShared.edit();
+        playerNameEditor.putString(playerNameKey, playerName);
+        playerIDEditor.putInt(playerIDKey, playerID);
+        playerNameEditor.commit();
+        playerIDEditor.commit();
     }
 
-    //retrieves selected user all activities
-    public static int getPlayer(String key, Context context) {
-        SharedPreferences playerName = PreferenceManager.getDefaultSharedPreferences(context);
-        return playerName.getInt(key, -1 );
+    //retrieves selected user name
+    public static String getPlayerName(String key, Context context) {
+        SharedPreferences playerNameShared = PreferenceManager.getDefaultSharedPreferences(context);
+        return playerNameShared.getString(key, null );
+    }
+
+    //retrieves selected user ID
+    public static int getPlayerID(String key, Context context) {
+        SharedPreferences playerIDShared = PreferenceManager.getDefaultSharedPreferences(context);
+        return playerIDShared.getInt(key, 0 );
     }
 }

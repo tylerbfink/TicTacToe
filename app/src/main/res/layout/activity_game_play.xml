@@ -25,9 +25,10 @@
         android:id="@+id/play_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/nunito"
         android:text="@string/blank"
+        android:textColor="#000000"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +41,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
         android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/button_three"
         app:layout_constraintDimensionRatio="1"
@@ -147,17 +147,42 @@
         app:layout_constraintStart_toStartOf="@+id/button_two"
         app:layout_constraintTop_toTopOf="@id/button_six"/>
 
+    <TextView
+        android:id="@+id/player_one_wins_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/nunito"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/player_two_wins_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_six" />
+
+    <TextView
+        android:id="@+id/player_two_wins_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/player_one_wins_text"
+        app:layout_constraintTop_toTopOf="@+id/player_one_wins_text" />
+
     <Button
         android:id="@+id/button_reset_board"
         style="@style/regular_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="18dp"
         android:background="@drawable/rounded_corners"
         android:text="@string/reset"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_seven" />
+        app:layout_constraintTop_toBottomOf="@+id/player_two_wins_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

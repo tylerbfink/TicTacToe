@@ -7,12 +7,17 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 public class GamePlay extends AppCompatActivity implements View.OnClickListener {
@@ -22,20 +27,51 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
     Button button_six, button_seven, button_eight;
     Button button_reset_board;
 
-    TextView play_text;
+    TextView play_text, player_one_text, player_two_text;
 
-    String playerNameOne = "Tyler";
+    String playerNameOne;
     String playerNameTwo = "Android";
+    int playerID;
+    int playerArrayPosition;
+
+    int playerOneWins = 0;
+    int playerTwoWins = 0;
 
     int[] playList = {0, 0, 0, 0, 0, 0, 0, 0, 0};  //played squares array
     int[] winningsSquares; //winnings squares to set highlight on win
     boolean winner = false;
     int playCount = 0;
 
+    PlayerIO playerData = new PlayerIO(); //new instance of player input/output
+    ArrayList<Player> playerListArray; //common app array that holds players & stats
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play);
+
+        //retrieves players from saved data file
+        playerListArray = playerData.readFile(getApplicationContext());
+
+        //retrieves current player from shared preferences
+        if (ChangePlayer.getPlayerName("CURRENT_PLAYER", getBaseContext()) != null) {
+            playerNameOne = ChangePlayer.getPlayerName("CURRENT_PLAYER", getBaseContext());
+            playerID = ChangePlayer.getPlayerID("CURRENT_ID", getBaseContext());
+
+            //gets player position in playerListArray by playerID
+            for (int index = 0; index < playerListArray.size(); index++) {
+                if (playerListArray.get(index).getPlayerID() == playerID) {
+                    playerArrayPosition = index;
+                }
+            }
+        }
+
+        //textView for score
+        player_one_text = (TextView) findViewById(R.id.player_one_wins_text);
+        player_two_text = (TextView) findViewById(R.id.player_two_wins_text);
+
+        player_one_text.setText(playerNameOne + " wins: " + playerOneWins);
+        player_two_text.setText(playerNameTwo + " wins: " + playerTwoWins);
 
         //text to indicate the players turn
         play_text = findViewById(R.id.play_text);
@@ -68,8 +104,8 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onBackPressed() {
+        playerData.writeFile(getApplicationContext(), playerListArray);
         Intent intent = new Intent(GamePlay.this, MainActivity.class);
-        //intent.putExtra("arrayListToSend", (Serializable) timestampArrayList);
         startActivity(intent);
         finish();
     }
@@ -127,51 +163,9 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
     // calculates androids move
     public void computerPlay() {
         if (playCount < 9) {
-            Random generator = new Random();
-            int nextPlay = generator.nextInt(9);
-            while (playList[nextPlay] != 0) {
-                nextPlay = generator.nextInt(9);
-            }
-            switch (nextPlay) {  //sets androids play on grid
-                case 0:
-                    button_zero.setText("O");
-                    playList[0] = 2;
-                    break;
-                case 1:
-                    button_one.setText("O");
-                    playList[1] = 2;
-                    break;
-                case 2:
-                    button_two.setText("O");
-                    playList[2] = 2;
-                    break;
-                case 3:
-                    button_three.setText("O");
-                    playList[3] = 2;
-                    break;
-                case 4:
-                    button_four.setText("O");
-                    playList[4] = 2;
-                    break;
-                case 5:
-                    button_five.setText("O");
-                    playList[5] = 2;
-                    break;
-                case 6:
-                    button_six.setText("O");
-                    playList[6] = 2;
-                    break;
-                case 7:
-                    button_seven.setText("O");
-                    playList[7] = 2;
-                    break;
-                case 8:
-                    button_eight.setText("O");
-                    playList[8] = 2;
-                    break;
-            }
-            playCount++;
-            checkForWinner();
+            AndroidGetPlay androidPlay = new AndroidGetPlay();
+            androidPlay.execute();
+
         }
     }
 
@@ -240,22 +234,39 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         }
 
         if (winner) {  //items to process if winner
-            String winningToken = "";
             playCount = 9;
 
             setWinningSquares();  //highlights winnings squares
 
+            String pattern = "dd MMM yyyy - h:mm:ss a";
+            SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+            String lastPlayedGame = dateFormat.format(new Date());
+
             if (playList[winningsSquares[0]] == 1) {
-                winningToken = "X's win!";
                 play_text.setText(playerNameOne + " Wins!");
+                playerOneWins++;
+                player_one_text.setText(playerNameOne + " wins: " + playerOneWins);
+
+                //adds won game/played game/last played date to playerOne stats
+                int tempWon = playerListArray.get(playerArrayPosition).getWins();
+                int tempPlayed = playerListArray.get(playerArrayPosition).getPlayedGames();
+                tempWon++;
+                tempPlayed++;
+                playerListArray.get(playerArrayPosition).setWins(tempWon);
+                playerListArray.get(playerArrayPosition).setPlayedGames(tempPlayed);
+                playerListArray.get(playerArrayPosition).setLastPlayedGame(lastPlayedGame);
             }
             else if (playList[winningsSquares[0]] == 2) {
-                winningToken = "O's win!";
                 play_text.setText(playerNameTwo + " Wins!");
-            }
+                playerTwoWins++;
+                player_two_text.setText(playerNameTwo + " wins: " + playerTwoWins);
 
-            Toast.makeText(getApplicationContext(), winningToken,
-                    Toast.LENGTH_SHORT).show();
+                //adds played game/last played date to playerOne stats
+                int tempPlayed = playerListArray.get(playerArrayPosition).getPlayedGames();
+                tempPlayed++;
+                playerListArray.get(playerArrayPosition).setPlayedGames(tempPlayed);
+                playerListArray.get(playerArrayPosition).setLastPlayedGame(lastPlayedGame);
+            }
         }
     }
 
@@ -359,5 +370,79 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         button_six.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#179981")));
         button_seven.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#179981")));
         button_eight.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#179981")));
+    }
+
+    public class AndroidGetPlay extends AsyncTask<Integer, String, Integer> {
+        private Handler handler = new Handler();
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... integer) {
+
+            Random generator = new Random();
+            int nextPlay = generator.nextInt(9);
+            while (playList[nextPlay] != 0) {
+                nextPlay = generator.nextInt(9);
+            }
+
+            switch (nextPlay) {  //sets androids play on grid
+                case 0:
+                    button_zero.setText("O");
+                    playList[0] = 2;
+                    break;
+                case 1:
+                    button_one.setText("O");
+                    playList[1] = 2;
+                    break;
+                case 2:
+                    button_two.setText("O");
+                    playList[2] = 2;
+                    break;
+                case 3:
+                    button_three.setText("O");
+                    playList[3] = 2;
+                    break;
+                case 4:
+                    button_four.setText("O");
+                    playList[4] = 2;
+                    break;
+                case 5:
+                    button_five.setText("O");
+                    playList[5] = 2;
+                    break;
+                case 6:
+                    button_six.setText("O");
+                    playList[6] = 2;
+                    break;
+                case 7:
+                    button_seven.setText("O");
+                    playList[7] = 2;
+                    break;
+                case 8:
+                    button_eight.setText("O");
+                    playList[8] = 2;
+                    break;
+            }
+
+            playCount++;
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+
+            checkForWinner();
+        }
     }
 }
