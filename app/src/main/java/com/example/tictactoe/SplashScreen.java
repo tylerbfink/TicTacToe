@@ -23,9 +23,10 @@ public class SplashScreen extends AppCompatActivity {
         welcome_back = (TextView) findViewById(R.id.welcome_player_text);
         welcome_player = (TextView) findViewById(R.id.welcome_player_name);
 
+        //loads previous player if available
         if (ChangePlayer.getPlayerName("CURRENT_PLAYER", getBaseContext()) != null) {
             currentPlayer = ChangePlayer.getPlayerName("CURRENT_PLAYER", getBaseContext());
-            welcome_back.setText("Welcome back:");
+            welcome_back.setText("Welcome Back:");
             welcome_player.setText(currentPlayer);
         }
         else {

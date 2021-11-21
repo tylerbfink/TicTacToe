@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,8 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
     Button button_reset_board;
 
     TextView play_text, player_one_text, player_two_text;
+
+    ImageView cat_image;
 
     String playerNameOne;
     String playerNameTwo = "Android";
@@ -65,6 +68,10 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
                 }
             }
         }
+
+        //sets cat image to transparent
+        cat_image = (ImageView) findViewById(R.id.cat_image);
+        cat_image.setAlpha(0);
 
         //textView for score
         player_one_text = (TextView) findViewById(R.id.player_one_wins_text);
@@ -154,6 +161,7 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
                     playList[8] = 1;
                     break;
             }
+
             playCount++;
             checkForWinner();
             computerPlay();
@@ -165,12 +173,29 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         if (playCount < 9) {
             AndroidGetPlay androidPlay = new AndroidGetPlay();
             androidPlay.execute();
+        }
+        else if (winner == false) { //checks for no winner if full board
+            disableButtons();
+            play_text.setText("Cat's Game!");
+            cat_image.setAlpha(1000);
 
+            String pattern = "dd MMM yyyy - h:mm:ss a";
+            SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+            String lastPlayedGame = dateFormat.format(new Date());
+
+            int tempPlayed = playerListArray.get(playerArrayPosition).getPlayedGames();
+            tempPlayed++;
+            playerListArray.get(playerArrayPosition).setPlayedGames(tempPlayed);
+            playerListArray.get(playerArrayPosition).setLastPlayedGame(lastPlayedGame);
         }
     }
 
     //resets game board for new game
     private void resetBoard() {
+        cat_image.setAlpha(0);
+
+        enableButtons();
+
         for (int index = 0; index < 9; index++) {
             playList[index] = 0;
         }
@@ -444,5 +469,31 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
 
             checkForWinner();
         }
+    }
+
+    //disables all play buttons
+    public void disableButtons() {
+        button_zero.setEnabled(false);
+        button_one.setEnabled(false);
+        button_two.setEnabled(false);
+        button_three.setEnabled(false);
+        button_four.setEnabled(false);
+        button_five.setEnabled(false);
+        button_six.setEnabled(false);
+        button_seven.setEnabled(false);
+        button_eight.setEnabled(false);
+    }
+
+    //enables all play buttons
+    public void enableButtons() {
+        button_zero.setEnabled(true);
+        button_one.setEnabled(true);
+        button_two.setEnabled(true);
+        button_three.setEnabled(true);
+        button_four.setEnabled(true);
+        button_five.setEnabled(true);
+        button_six.setEnabled(true);
+        button_seven.setEnabled(true);
+        button_eight.setEnabled(true);
     }
 }

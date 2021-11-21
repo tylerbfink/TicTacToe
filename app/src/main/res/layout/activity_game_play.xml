@@ -93,8 +93,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        app:layout_constraintDimensionRatio="1"
         app:layout_constraintBottom_toBottomOf="@+id/button_three"
+        app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="@+id/button_one"
         app:layout_constraintStart_toStartOf="@+id/button_one"
         app:layout_constraintTop_toTopOf="@id/button_three" />
@@ -105,11 +105,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        app:layout_constraintDimensionRatio="1"
         app:layout_constraintBottom_toBottomOf="@+id/button_three"
+        app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="@+id/button_two"
         app:layout_constraintStart_toStartOf="@+id/button_two"
-        app:layout_constraintTop_toTopOf="@id/button_three"/>
+        app:layout_constraintTop_toTopOf="@id/button_three" />
 
     <Button
         android:id="@+id/button_six"
@@ -121,7 +121,7 @@
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="@+id/button_zero"
         app:layout_constraintStart_toStartOf="@+id/button_zero"
-        app:layout_constraintTop_toBottomOf="@id/button_three"/>
+        app:layout_constraintTop_toBottomOf="@id/button_three" />
 
     <Button
         android:id="@+id/button_seven"
@@ -129,11 +129,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        app:layout_constraintDimensionRatio="1"
         app:layout_constraintBottom_toBottomOf="@+id/button_six"
+        app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="@+id/button_one"
         app:layout_constraintStart_toStartOf="@+id/button_one"
-        app:layout_constraintTop_toTopOf="@id/button_six"/>
+        app:layout_constraintTop_toTopOf="@id/button_six" />
 
     <Button
         android:id="@+id/button_eight"
@@ -141,11 +141,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        app:layout_constraintDimensionRatio="1"
         app:layout_constraintBottom_toBottomOf="@+id/button_six"
+        app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="@+id/button_two"
         app:layout_constraintStart_toStartOf="@+id/button_two"
-        app:layout_constraintTop_toTopOf="@id/button_six"/>
+        app:layout_constraintTop_toTopOf="@id/button_six" />
 
     <TextView
         android:id="@+id/player_one_wins_text"
@@ -153,8 +153,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:fontFamily="@font/nunito"
-        android:textSize="20sp"
         android:textColor="#000000"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/player_two_wins_text"
         app:layout_constraintStart_toStartOf="parent"
@@ -165,8 +165,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito"
-        android:textSize="20sp"
         android:textColor="#000000"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/player_one_wins_text"
@@ -184,5 +184,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player_two_wins_text" />
+
+    <ImageView
+        android:id="@+id/cat_image"
+        android:layout_width="264dp"
+        android:layout_height="295dp"
+        android:layout_marginTop="48dp"
+        android:visibility="visible"
+        android:elevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/button_one"
+        app:srcCompat="@drawable/cats_game" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

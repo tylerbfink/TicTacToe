@@ -24,6 +24,7 @@
     <string name="your_turn">\'s turn!</string>
     <string name="welcome_back">Welcome back</string>
     <string name="welcome_new">Welcome new player!</string>
+    <string name="cat_credit">Cat image from https://www.clipartmax.com/</string>
 
     <string-array name="main_menu_options">
         <item>Play Game</item>
