@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,10 +32,13 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
 
     ImageView cat_image;
 
+    Boolean twoPlayer = false;
+
     String playerNameOne;
     String playerNameTwo = "Android";
-    int playerID;
-    int playerArrayPosition;
+
+    int playerID, playerTwoID;
+    int playerArrayPosition, playerTwoArrayPosition;
 
     int playerOneWins = 0;
     int playerTwoWins = 0;
@@ -44,6 +47,8 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
     int[] winningsSquares; //winnings squares to set highlight on win
     boolean winner = false;
     int playCount = 0;
+
+    int nextPlay;
 
     PlayerIO playerData = new PlayerIO(); //new instance of player input/output
     ArrayList<Player> playerListArray; //common app array that holds players & stats
@@ -56,7 +61,7 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         //retrieves players from saved data file
         playerListArray = playerData.readFile(getApplicationContext());
 
-        //retrieves current player from shared preferences
+        //retrieves current player from shared preferences or array if no shared preference
         if (ChangePlayer.getPlayerName("CURRENT_PLAYER", getBaseContext()) != null) {
             playerNameOne = ChangePlayer.getPlayerName("CURRENT_PLAYER", getBaseContext());
             playerID = ChangePlayer.getPlayerID("CURRENT_ID", getBaseContext());
@@ -67,6 +72,26 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
                     playerArrayPosition = index;
                 }
             }
+        }
+
+        //retrieves player two if two player is selected
+        if (Options.getPlayerTwoSelected("TWO_PLAYER", getBaseContext())) {
+            twoPlayer = true;
+
+            playerNameTwo = Options.getPlayerTwoName("PLAYER_TWO_NAME", getBaseContext());
+            playerTwoID = Options.getPlayerTwoID("PLAYER_TWO_ID", getBaseContext());
+
+            //gets player position in playerListArray by playerID
+            for (int index = 0; index < playerListArray.size(); index++) {
+                if (playerListArray.get(index).getPlayerID() == playerTwoID) {
+                    playerTwoArrayPosition = index;
+                }
+            }
+        }
+
+        else {
+            playerNameOne = playerListArray.get(0).getName();
+            playerArrayPosition = 0;
         }
 
         //sets cat image to transparent
@@ -174,6 +199,7 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
             AndroidGetPlay androidPlay = new AndroidGetPlay();
             androidPlay.execute();
         }
+
         else if (winner == false) { //checks for no winner if full board
             disableButtons();
             play_text.setText("Cat's Game!");
@@ -188,6 +214,49 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
             playerListArray.get(playerArrayPosition).setPlayedGames(tempPlayed);
             playerListArray.get(playerArrayPosition).setLastPlayedGame(lastPlayedGame);
         }
+    }
+
+    private void processComputerPlay() {
+        switch (nextPlay) {  //sets androids play on grid
+            case 0:
+                button_zero.setText("O");
+                playList[0] = 2;
+                break;
+            case 1:
+                button_one.setText("O");
+                playList[1] = 2;
+                break;
+            case 2:
+                button_two.setText("O");
+                playList[2] = 2;
+                break;
+            case 3:
+                button_three.setText("O");
+                playList[3] = 2;
+                break;
+            case 4:
+                button_four.setText("O");
+                playList[4] = 2;
+                break;
+            case 5:
+                button_five.setText("O");
+                playList[5] = 2;
+                break;
+            case 6:
+                button_six.setText("O");
+                playList[6] = 2;
+                break;
+            case 7:
+                button_seven.setText("O");
+                playList[7] = 2;
+                break;
+            case 8:
+                button_eight.setText("O");
+                playList[8] = 2;
+                break;
+        }
+        playCount++;
+        checkForWinner();
     }
 
     //resets game board for new game
@@ -397,63 +466,25 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         button_eight.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#179981")));
     }
 
+    //public class AndroidGetPlay extends AsyncTask<Integer, String, Integer> {
     public class AndroidGetPlay extends AsyncTask<Integer, String, Integer> {
         private Handler handler = new Handler();
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
         }
+
 
         @Override
         protected Integer doInBackground(Integer... integer) {
 
             Random generator = new Random();
-            int nextPlay = generator.nextInt(9);
+            nextPlay = generator.nextInt(9);
             while (playList[nextPlay] != 0) {
                 nextPlay = generator.nextInt(9);
             }
-
-            switch (nextPlay) {  //sets androids play on grid
-                case 0:
-                    button_zero.setText("O");
-                    playList[0] = 2;
-                    break;
-                case 1:
-                    button_one.setText("O");
-                    playList[1] = 2;
-                    break;
-                case 2:
-                    button_two.setText("O");
-                    playList[2] = 2;
-                    break;
-                case 3:
-                    button_three.setText("O");
-                    playList[3] = 2;
-                    break;
-                case 4:
-                    button_four.setText("O");
-                    playList[4] = 2;
-                    break;
-                case 5:
-                    button_five.setText("O");
-                    playList[5] = 2;
-                    break;
-                case 6:
-                    button_six.setText("O");
-                    playList[6] = 2;
-                    break;
-                case 7:
-                    button_seven.setText("O");
-                    playList[7] = 2;
-                    break;
-                case 8:
-                    button_eight.setText("O");
-                    playList[8] = 2;
-                    break;
-            }
-
-            playCount++;
 
             return null;
         }
@@ -466,8 +497,7 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         @Override
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
-
-            checkForWinner();
+            processComputerPlay();
         }
     }
 

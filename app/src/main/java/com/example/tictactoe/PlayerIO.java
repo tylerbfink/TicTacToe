@@ -62,6 +62,11 @@ public class PlayerIO  {
             }
         }
 
+        //if save file does not exist creates generic 'New Player' for usage
+        else {
+            playerListArray.add(0, new Player(0, "New Player"));
+        }
+
         return playerListArray;
     }
 

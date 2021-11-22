@@ -30,7 +30,8 @@ public class SplashScreen extends AppCompatActivity {
             welcome_player.setText(currentPlayer);
         }
         else {
-            welcome_back.setText("Welcome New Player!");
+            welcome_back.setText("Welcome");
+            welcome_player.setText("New Player!");
         }
 
 

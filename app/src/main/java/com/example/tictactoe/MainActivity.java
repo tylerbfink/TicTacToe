@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    String currentPlayer = null;
+    String currentPlayer = "New Player";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2:
                         intent = new Intent(MainActivity.this, Standings.class);
+                        break;
+                    case 3:
+                        intent = new Intent(MainActivity.this, Options.class);
                         break;
                 }
                 startActivity(intent);

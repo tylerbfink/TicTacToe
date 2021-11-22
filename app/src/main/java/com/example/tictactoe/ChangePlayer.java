@@ -119,7 +119,6 @@ public class ChangePlayer extends AppCompatActivity
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(ChangePlayer.this, MainActivity.class);
-        //intent.putExtra("arrayListToSend", (Serializable) timestampArrayList);
         startActivity(intent);
         finish();
     }

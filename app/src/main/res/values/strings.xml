@@ -17,6 +17,9 @@
     <string name="confirm_sure">Confirm you want to delete selected player?</string>
     <string name="name">Enter name</string>
     <string name="ok">Add Player</string>
+    <string name="options">Options</string>
+    <string name="two_player">Two Player</string>
+    <string name="player_two">Player Two:</string>
     <string name="enter_name">New player Name</string>
     <string name="cancel">Cancel</string>
     <string name="add_new">Add new player</string>
@@ -30,5 +33,6 @@
         <item>Play Game</item>
         <item>Change Player</item>
         <item>Standings</item>
+        <item>Options</item>
     </string-array>
 </resources>
