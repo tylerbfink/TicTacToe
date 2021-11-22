@@ -182,7 +182,13 @@ public class Options extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (twoPlayer != true || (twoPlayer == true && !playerTwoName.equals("Not Selected"))) {
+        String tempPlayer = "";
+
+        if (getPlayerTwoName("PLAYER_TWO_NAME", getBaseContext()) != null) {
+            tempPlayer = getPlayerTwoName("PLAYER_TWO_NAME", getBaseContext());
+        }
+
+        if (twoPlayer != true || (twoPlayer == true && tempPlayer.equals(playerTwoName))) {
             Intent intent = new Intent(Options.this, MainActivity.class);
             startActivity(intent);
             finish();

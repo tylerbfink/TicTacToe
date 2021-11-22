@@ -74,6 +74,11 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
             }
         }
 
+        else {
+            playerNameOne = playerListArray.get(0).getName();
+            playerArrayPosition = 0;
+        }
+
         //retrieves player two if two player is selected
         if (Options.getPlayerTwoSelected("TWO_PLAYER", getBaseContext())) {
             twoPlayer = true;
@@ -87,11 +92,6 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
                     playerTwoArrayPosition = index;
                 }
             }
-        }
-
-        else {
-            playerNameOne = playerListArray.get(0).getName();
-            playerArrayPosition = 0;
         }
 
         //sets cat image to transparent
@@ -189,7 +189,13 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
 
             playCount++;
             checkForWinner();
-            computerPlay();
+            if (twoPlayer) {
+                playerTwoPlay();
+                }
+            }
+            else {
+                computerPlay();
+            }
         }
     }
 
@@ -257,6 +263,10 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         }
         playCount++;
         checkForWinner();
+    }
+
+    public void playerTwoPlay() {
+
     }
 
     //resets game board for new game
@@ -473,9 +483,7 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
-
 
         @Override
         protected Integer doInBackground(Integer... integer) {
