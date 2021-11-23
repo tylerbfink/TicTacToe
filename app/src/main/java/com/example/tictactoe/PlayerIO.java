@@ -28,7 +28,6 @@ public class PlayerIO  {
     public ArrayList<Player> readFile(Context context) {
 
         if (fileExists(context, SAVED_PLAYER)) {
-
             FileInputStream fis = null;
             try {
                 fis = context.openFileInput(SAVED_PLAYER);
@@ -36,7 +35,6 @@ public class PlayerIO  {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
 
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
@@ -56,8 +54,8 @@ public class PlayerIO  {
 
                     playerListArray.add(0, tempPlayer);
                 }
-
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -75,7 +73,6 @@ public class PlayerIO  {
         File file = context.getFileStreamPath(fileName);
         return file.exists();
     }
-
 
     //writes player data to file
     public void writeFile(Context context, ArrayList<Player> playerListArray) {
@@ -99,8 +96,8 @@ public class PlayerIO  {
                         tempPlayer.getLastPlayedGame() + "\n";
 
                 fos.write(saveInfo.getBytes());
-
             }
+
             fos.close();
 
         } catch(FileNotFoundException e){
@@ -108,16 +105,10 @@ public class PlayerIO  {
         } catch(IOException e){
                 e.printStackTrace();
         }
-
     }
 
     public int generatePlayerID() {
         return playerListArray.size() + 1;
-    }
-
-    public void first() {
-        String newPlayerName = "Player1";
-        playerListArray.add(0, new Player(generatePlayerID(), newPlayerName));
     }
 }
 

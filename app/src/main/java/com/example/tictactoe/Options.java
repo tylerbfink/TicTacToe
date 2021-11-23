@@ -1,5 +1,7 @@
 package com.example.tictactoe;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -64,12 +67,19 @@ public class Options extends AppCompatActivity {
             //builds player listView
             adapter = new PlayerNamesAdapter(getBaseContext(), playerListArray);
             playerListView.setAdapter(adapter);
+
             playerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     listViewSelected = i;
                     playerTwoName = playerListArray.get(i).getName();
                     playerTwoID = playerListArray.get(i).getPlayerID();
+
+                    if (listViewSelected != -1) {
+                        savePlayerTwo("PLAYER_TWO_NAME", playerTwoName,
+                                "PLAYER_TWO_ID", playerTwoID, getBaseContext());
+                        player_two_text.setText("Player Two: " + playerTwoName);
+                    }
                 }
             });
         }
@@ -128,6 +138,7 @@ public class Options extends AppCompatActivity {
                             "PLAYER_TWO_ID", playerTwoID, getBaseContext());
 
                     player_two_text.setText("Player Two: " + playerTwoName);
+                    onBackPressed();
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"Please select a player first!",
@@ -136,7 +147,6 @@ public class Options extends AppCompatActivity {
             }
         });
     }
-
 
     //saves player name and ID in sharedPreference
     public static void savePlayerTwo(String playerTwoNameKey, String playerTwoName,

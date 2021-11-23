@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
     boolean winner = false;
     int playCount = 0;
 
-    int nextPlay;
+    int nextPlay = 0;
 
     PlayerIO playerData = new PlayerIO(); //new instance of player input/output
     ArrayList<Player> playerListArray; //common app array that holds players & stats
@@ -133,6 +134,43 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         button_seven.setOnClickListener(this);
         button_eight.setOnClickListener(this);
         button_reset_board.setOnClickListener(this);
+
+        //restores state of game
+        if (savedInstanceState != null) {
+            playList = savedInstanceState.getIntArray("PLAYLIST");
+            restoreSquares();
+
+            playerOneTurn = savedInstanceState.getBoolean("PLAYER_ONE_TURN");
+            if (playerOneTurn == true) {
+                play_text.setText(playerNameOne + getString(R.string.your_turn));
+            }
+            else if (twoPlayer && !playerOneTurn) {
+                play_text.setText(playerNameTwo + getString(R.string.your_turn));
+            }
+
+            winner = savedInstanceState.getBoolean("WINNER");
+            winningsSquares = savedInstanceState.getIntArray("WINNING_SQUARES");
+            if (winner) {
+                setWinningSquares();
+
+                if (playList[winningsSquares[0]] == 1) {
+                    play_text.setText(playerNameOne + " Wins!");
+                }
+                else if (playList[winningsSquares[0]] == 2) {
+                    play_text.setText(playerNameTwo + " Wins!");
+                }
+            }
+
+            playerOneWins = savedInstanceState.getInt("PLAYER_ONE_WINS");
+            player_one_text.setText(playerNameOne + " wins: " + playerOneWins);
+
+            playerTwoWins = savedInstanceState.getInt("PLAYER_TWO_WINS");
+            player_two_text.setText(playerNameTwo + " wins: " + playerTwoWins);
+
+            playCount = savedInstanceState.getInt("PLAY_COUNT");
+
+            nextPlay = savedInstanceState.getInt("NEXT_PLAY");
+        }
     }
 
     @Override
@@ -392,9 +430,10 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         for (int index = 0; index < 9; index++) {
             playList[index] = 0;
         }
+
         playCount = 0;
         winner = false;
-        winningsSquares = new int[]{0, 4, 8};
+        //winningsSquares = new int[]{0, 4, 8};
 
         button_zero.setText(R.string.blank);
         button_one.setText(R.string.blank);
@@ -661,5 +700,81 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         button_six.setEnabled(true);
         button_seven.setEnabled(true);
         button_eight.setEnabled(true);
+    }
+
+    public void restoreSquares() {
+        for (int index = 0; index < 9; index++) {
+            if (index == 0 && playList[index] == 1) {
+                button_zero.setText("X");
+            }
+            else if (index == 0 && playList[index] == 2) {
+                button_zero.setText("O");
+            }
+            else if (index == 1 && playList[index] == 1) {
+                button_one.setText("X");
+            }
+            else if (index == 1 && playList[index] == 2) {
+                button_one.setText("O");
+            }
+            else if (index == 2 && playList[index] == 1) {
+                button_two.setText("X");
+            }
+            else if (index == 2 && playList[index] == 2) {
+                button_two.setText("O");
+            }
+            else if (index == 3 && playList[index] == 1) {
+                button_three.setText("X");
+            }
+            else if (index == 3 && playList[index] == 2) {
+                button_three.setText("O");
+            }
+            else if (index == 4 && playList[index] == 1) {
+                button_four.setText("X");
+            }
+            else if (index == 4 && playList[index] == 2) {
+                button_four.setText("O");
+            }
+            else if (index == 5 && playList[index] == 1) {
+                button_five.setText("X");
+            }
+            else if (index == 5 && playList[index] == 2) {
+                button_five.setText("O");
+            }
+            else if (index == 6 && playList[index] == 1) {
+                button_six.setText("X");
+            }
+            else if (index == 6 && playList[index] == 2) {
+                button_six.setText("O");
+            }
+            else if (index == 7 && playList[index] == 1) {
+                button_seven.setText("X");
+            }
+            else if (index == 7 && playList[index] == 2) {
+                button_seven.setText("O");
+            }
+            else if (index == 8 && playList[index] == 1) {
+                button_eight.setText("X");
+            }
+            else if (index == 8 && playList[index] == 2) {
+                button_eight.setText("O");
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        //saves play data
+        savedInstanceState.putIntArray("PLAYLIST", playList);
+        savedInstanceState.putIntArray("WINNING_SQUARES", winningsSquares);
+
+        savedInstanceState.putInt("PLAYER_ONE_WINS", playerOneWins);
+        savedInstanceState.putInt("PLAYER_TWO_WINS", playerTwoWins);
+        savedInstanceState.putInt("PLAY_COUNT", playCount);
+        savedInstanceState.putInt("NEXT_PLAY", nextPlay);
+
+        savedInstanceState.putBoolean("PLAYER_ONE_TURN", playerOneTurn);
+        savedInstanceState.putBoolean("WINNER", winner);
     }
 }

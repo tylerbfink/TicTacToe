@@ -52,6 +52,11 @@ public class ChangePlayer extends AppCompatActivity
                 listViewSelected = i;
                 currentPlayerName = playerListArray.get(i).getName();
                 currentPlayerID = playerListArray.get(i).getPlayerID();
+
+                if (listViewSelected != -1) {
+                    savePlayer("CURRENT_PLAYER", currentPlayerName,
+                            "CURRENT_ID", currentPlayerID, getBaseContext());
+                }
             }
         });
 
@@ -97,6 +102,12 @@ public class ChangePlayer extends AppCompatActivity
                                             Toast.LENGTH_SHORT).show();
                                     playerListArray.remove(listViewSelected);
                                     playerData.writeFile(getApplicationContext(), playerListArray);
+
+                                    //turns off two player game if only one player in saved player list
+                                    if (playerListArray.size() < 2) {
+                                        Options.saveTwoPlayerOn("TWO_PLAYER", false, getBaseContext());
+                                    }
+
                                     adapter.notifyDataSetChanged();
                                 }
                                 else {
@@ -118,9 +129,22 @@ public class ChangePlayer extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(ChangePlayer.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        //forces to create at least one player before exit
+        if (playerListArray.size() == 0) {
+            Toast.makeText(getApplicationContext(),
+                    "One player required! Please add player.", Toast.LENGTH_LONG).show();
+        }
+
+        else {
+            if (playerListArray.size() == 1) {
+                savePlayer("CURRENT_PLAYER", playerListArray.get(0).getName(),
+                        "CURRENT_ID", playerListArray.get(0).getPlayerID(), getBaseContext());
+            }
+
+            Intent intent = new Intent(ChangePlayer.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     //opens the add player editText
