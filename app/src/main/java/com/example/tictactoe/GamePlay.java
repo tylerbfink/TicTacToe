@@ -32,7 +32,8 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
 
     ImageView cat_image;
 
-    Boolean twoPlayer = false;
+    boolean twoPlayer = false;
+    boolean playerOneTurn = true;
 
     String playerNameOne;
     String playerNameTwo = "Android";
@@ -147,54 +148,168 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         if (view.getId() == R.id.button_reset_board) {  //resets game
             resetBoard();
         }
+
         else if (playCount < 9 && checkIfOpen(view)) { //places players mark on board
             switch (view.getId()) {
                 case R.id.button_zero:
-                    button_zero.setText("X");
-                    playList[0] = 1;
+                    if (playerOneTurn) {
+                        button_zero.setText("X");
+                        playList[0] = 1;
+                        playerOneTurn = false;
+                        if (twoPlayer) {
+                            play_text.setText(playerNameTwo + getString(R.string.your_turn));
+                        };
+                    }
+                    else if (!playerOneTurn && twoPlayer == true) {
+                        button_zero.setText("O");
+                        playList[0] = 2;
+                        playerOneTurn = true;
+                        play_text.setText(playerNameOne + getString(R.string.your_turn));
+                    }
+                    playCount++;
                     break;
                 case R.id.button_one:
-                    button_one.setText("X");
-                    playList[1] = 1;
+                    if (playerOneTurn) {
+                        button_one.setText("X");
+                        playList[1] = 1;
+                        playerOneTurn = false;
+                        if (twoPlayer) {
+                            play_text.setText(playerNameTwo + getString(R.string.your_turn));
+                        };
+                    }
+                    else if (!playerOneTurn && twoPlayer == true) {
+                        button_one.setText("O");
+                        playList[1] = 2;
+                        playerOneTurn = true;
+                        play_text.setText(playerNameOne + getString(R.string.your_turn));
+                    }
+                    playCount++;
                     break;
                 case R.id.button_two:
-                    button_two.setText("X");
-                    playList[2] = 1;
+                    if (playerOneTurn) {
+                        button_two.setText("X");
+                        playList[2] = 1;
+                        playerOneTurn = false;
+                        if (twoPlayer) {
+                            play_text.setText(playerNameTwo + getString(R.string.your_turn));
+                        };
+                    }
+                    else if (!playerOneTurn && twoPlayer) {
+                        button_two.setText("O");
+                        playList[2] = 2;
+                        playerOneTurn = true;
+                        play_text.setText(playerNameOne + getString(R.string.your_turn));
+                    }
+                    playCount++;
                     break;
                 case R.id.button_three:
-                    button_three.setText("X");
-                    playList[3] = 1;
+                    if (playerOneTurn) {
+                        button_three.setText("X");
+                        playList[3] = 1;
+                        playerOneTurn = false;
+                        if (twoPlayer) {
+                            play_text.setText(playerNameTwo + getString(R.string.your_turn));
+                        };
+                    }
+                    else if (!playerOneTurn && twoPlayer == true) {
+                        button_three.setText("O");
+                        playList[3] = 2;
+                        playerOneTurn = true;
+                        play_text.setText(playerNameOne + getString(R.string.your_turn));
+                    }
+                    playCount++;
                     break;
                 case R.id.button_four:
-                    button_four.setText("X");
-                    playList[4] = 1;
+                    if (playerOneTurn) {
+                        button_four.setText("X");
+                        playList[4] = 1;
+                        playerOneTurn = false;
+                        if (twoPlayer) {
+                            play_text.setText(playerNameTwo + getString(R.string.your_turn));
+                        };
+                    }
+                    else if (!playerOneTurn && twoPlayer == true) {
+                        button_four.setText("O");
+                        playList[4] = 2;
+                        playerOneTurn = true;
+                        play_text.setText(playerNameOne + getString(R.string.your_turn));
+                    }
+                    playCount++;
                     break;
                 case R.id.button_five:
-                    button_five.setText("X");
-                    playList[5] = 1;
+                    if (playerOneTurn) {
+                        button_five.setText("X");
+                        playList[5] = 1;
+                        playerOneTurn = false;
+                        if (twoPlayer) {
+                            play_text.setText(playerNameTwo + getString(R.string.your_turn));
+                        };
+                    }
+                    else if (!playerOneTurn && twoPlayer == true) {
+                        button_five.setText("O");
+                        playList[5] = 2;
+                        playerOneTurn = true;
+                        play_text.setText(playerNameOne + getString(R.string.your_turn));
+                    }
+                    playCount++;
                     break;
                 case R.id.button_six:
-                    button_six.setText("X");
-                    playList[6] = 1;
+                    if (playerOneTurn) {
+                        button_six.setText("X");
+                        playList[6] = 1;
+                        playerOneTurn = false;
+                        if (twoPlayer) {
+                            play_text.setText(playerNameTwo + getString(R.string.your_turn));
+                        };
+                    }
+                    else if (!playerOneTurn && twoPlayer == true) {
+                        button_six.setText("O");
+                        playList[6] = 2;
+                        playerOneTurn = true;
+                        play_text.setText(playerNameOne + getString(R.string.your_turn));
+                    }
+                    playCount++;
                     break;
                 case R.id.button_seven:
-                    button_seven.setText("X");
-                    playList[7] = 1;
+                    if (playerOneTurn) {
+                        button_seven.setText("X");
+                        playList[7] = 1;
+                        playerOneTurn = false;
+                        if (twoPlayer) {
+                            play_text.setText(playerNameTwo + getString(R.string.your_turn));
+                        };
+                    }
+                    else if (!playerOneTurn && twoPlayer == true) {
+                        button_seven.setText("O");
+                        playList[7] = 2;
+                        playerOneTurn = true;
+                        play_text.setText(playerNameOne + getString(R.string.your_turn));
+                    }
+                    playCount++;
                     break;
                 case R.id.button_eight:
-                    button_eight.setText("X");
-                    playList[8] = 1;
+                    if (playerOneTurn) {
+                        button_eight.setText("X");
+                        playList[8] = 1;
+                        playerOneTurn = false;
+                        if (twoPlayer) {
+                            play_text.setText(playerNameTwo + getString(R.string.your_turn));
+                        };
+                    }
+                    else if (!playerOneTurn && twoPlayer == true) {
+                        button_eight.setText("O");
+                        playList[8] = 2;
+                        playerOneTurn = true;
+                        play_text.setText(playerNameOne + getString(R.string.your_turn));
+                    }
+                    playCount++;
                     break;
             }
-
-            playCount++;
             checkForWinner();
-            if (twoPlayer) {
-                playerTwoPlay();
-                }
-            }
-            else {
+
+            if (twoPlayer == false) {
                 computerPlay();
+                playerOneTurn = true;
             }
         }
     }
@@ -265,15 +380,14 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         checkForWinner();
     }
 
-    public void playerTwoPlay() {
-
-    }
 
     //resets game board for new game
     private void resetBoard() {
         cat_image.setAlpha(0);
 
         enableButtons();
+
+        playerOneTurn = true;
 
         for (int index = 0; index < 9; index++) {
             playList[index] = 0;
@@ -365,7 +479,21 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
                 playerTwoWins++;
                 player_two_text.setText(playerNameTwo + " wins: " + playerTwoWins);
 
-                //adds played game/last played date to playerOne stats
+                //adds played game/last played date to playerTwo stats (human player two)
+                int tempWon = playerListArray.get(playerTwoArrayPosition).getWins();
+                int tempPlayed = playerListArray.get(playerTwoArrayPosition).getPlayedGames();
+                tempWon++;
+                tempPlayed++;
+                playerListArray.get(playerTwoArrayPosition).setWins(tempWon);
+                playerListArray.get(playerTwoArrayPosition).setPlayedGames(tempPlayed);
+                playerListArray.get(playerTwoArrayPosition).setLastPlayedGame(lastPlayedGame);
+            }
+            else if (playList[winningsSquares[0]] == 2) {
+                play_text.setText(playerNameTwo + " Wins!");
+                playerTwoWins++;
+                player_two_text.setText(playerNameTwo + " wins: " + playerTwoWins);
+
+                //adds played game/last played date to playerTwo stats (android player two)
                 int tempPlayed = playerListArray.get(playerArrayPosition).getPlayedGames();
                 tempPlayed++;
                 playerListArray.get(playerArrayPosition).setPlayedGames(tempPlayed);

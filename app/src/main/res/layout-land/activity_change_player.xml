@@ -25,13 +25,13 @@
         android:layout_width="0dp"
         android:layout_height="300dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="50dp"
         android:choiceMode="singleChoice"
         android:listSelector="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/use_selected"
-        app:layout_constraintTop_toBottomOf="@+id/page_info_text" />
+        app:layout_constraintStart_toEndOf="@+id/use_selected"
+        app:layout_constraintTop_toTopOf="@+id/use_selected" />
 
     <Button
         android:id="@+id/add_player"
@@ -64,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_corners"
         android:text="@string/use_player"
@@ -76,7 +76,6 @@
         android:id="@+id/page_info_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:text="@string/select_or_add"
         android:textColor="#000000"
         android:textSize="24sp"
