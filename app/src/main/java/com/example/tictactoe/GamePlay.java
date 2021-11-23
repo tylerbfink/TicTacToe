@@ -512,6 +512,13 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
                 playerListArray.get(playerArrayPosition).setWins(tempWon);
                 playerListArray.get(playerArrayPosition).setPlayedGames(tempPlayed);
                 playerListArray.get(playerArrayPosition).setLastPlayedGame(lastPlayedGame);
+
+                if (twoPlayer) {
+                    int tempPlayerTwoPlayed = playerListArray.get(playerTwoArrayPosition).getPlayedGames();
+                    tempPlayerTwoPlayed++;
+                    playerListArray.get(playerTwoArrayPosition).setPlayedGames(tempPlayerTwoPlayed);
+                    playerListArray.get(playerTwoArrayPosition).setLastPlayedGame(lastPlayedGame);
+                }
             }
             else if (playList[winningsSquares[0]] == 2) {
                 play_text.setText(playerNameTwo + " Wins!");
@@ -528,6 +535,12 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
                     playerListArray.get(playerTwoArrayPosition).setPlayedGames(tempPlayed);
                     playerListArray.get(playerTwoArrayPosition).setLastPlayedGame(lastPlayedGame);
                 }
+
+                //adds played game/last played date to playerOne stats
+                int tempPlayerOnePlayed = playerListArray.get(playerArrayPosition).getPlayedGames();
+                tempPlayerOnePlayed++;
+                playerListArray.get(playerArrayPosition).setPlayedGames(tempPlayerOnePlayed);
+                playerListArray.get(playerArrayPosition).setLastPlayedGame(lastPlayedGame);
             }
         }
     }
