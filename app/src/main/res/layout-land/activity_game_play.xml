@@ -30,7 +30,7 @@
         android:textColor="#000000"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/button_zero"
+        app:layout_constraintEnd_toStartOf="@+id/guide_one"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_play" />
 
@@ -41,13 +41,11 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/button_three"
+        app:layout_constraintBottom_toBottomOf="@+id/button_two"
         app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toStartOf="@+id/button_one"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@id/guide_one"
-        app:layout_constraintTop_toBottomOf="@+id/title_play"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintStart_toEndOf="@+id/guide_one"
+        app:layout_constraintEnd_toStartOf="@id/button_one"
+        app:layout_constraintTop_toTopOf="@id/button_two" />
 
     <Button
         android:id="@+id/button_one"
@@ -55,7 +53,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/button_zero"
+        app:layout_constraintBottom_toBottomOf="@+id/button_two"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toStartOf="@+id/button_two"
         app:layout_constraintStart_toEndOf="@id/button_zero"
@@ -68,11 +66,13 @@
         android:layout_height="0dp"
         android:layout_marginEnd="16dp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/button_zero"
+        app:layout_constraintBottom_toTopOf="@+id/button_five"
         app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/button_one"
-        app:layout_constraintTop_toTopOf="@id/button_zero" />
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_play"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/button_three"
@@ -80,11 +80,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/button_six"
+        app:layout_constraintBottom_toBottomOf="@+id/button_five"
         app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toEndOf="@id/button_zero"
         app:layout_constraintStart_toStartOf="@id/button_zero"
-        app:layout_constraintTop_toBottomOf="@id/button_zero" />
+        app:layout_constraintEnd_toEndOf="@id/button_zero"
+        app:layout_constraintTop_toTopOf="@id/button_five" />
 
     <Button
         android:id="@+id/button_four"
@@ -92,11 +92,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/button_three"
+        app:layout_constraintBottom_toBottomOf="@+id/button_five"
         app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toEndOf="@+id/button_one"
         app:layout_constraintStart_toStartOf="@+id/button_one"
-        app:layout_constraintTop_toTopOf="@id/button_three" />
+        app:layout_constraintEnd_toEndOf="@+id/button_one"
+        app:layout_constraintTop_toTopOf="@id/button_five" />
 
     <Button
         android:id="@+id/button_five"
@@ -104,11 +104,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/button_three"
+        app:layout_constraintBottom_toTopOf="@+id/button_eight"
         app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toEndOf="@+id/button_two"
-        app:layout_constraintStart_toStartOf="@+id/button_two"
-        app:layout_constraintTop_toTopOf="@id/button_three" />
+        app:layout_constraintStart_toStartOf="@id/button_two"
+        app:layout_constraintEnd_toEndOf="@id/button_two"
+        app:layout_constraintTop_toBottomOf="@id/button_two"/>
 
     <Button
         android:id="@+id/button_six"
@@ -116,11 +116,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/button_eight"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="@+id/button_zero"
         app:layout_constraintStart_toStartOf="@+id/button_zero"
-        app:layout_constraintTop_toBottomOf="@id/button_three" />
+        app:layout_constraintTop_toTopOf="@id/button_eight" />
 
     <Button
         android:id="@+id/button_seven"
@@ -128,11 +128,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/button_six"
+        app:layout_constraintBottom_toBottomOf="@+id/button_eight"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="@+id/button_one"
         app:layout_constraintStart_toStartOf="@+id/button_one"
-        app:layout_constraintTop_toTopOf="@id/button_six" />
+        app:layout_constraintTop_toTopOf="@id/button_eight" />
 
     <Button
         android:id="@+id/button_eight"
@@ -140,11 +140,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/button_six"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="@+id/button_two"
         app:layout_constraintStart_toStartOf="@+id/button_two"
-        app:layout_constraintTop_toTopOf="@id/button_six" />
+        app:layout_constraintTop_toBottomOf="@id/button_five" />
 
     <TextView
         android:id="@+id/player_one_wins_text"

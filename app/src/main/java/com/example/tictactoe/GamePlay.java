@@ -518,25 +518,16 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
                 playerTwoWins++;
                 player_two_text.setText(playerNameTwo + " wins: " + playerTwoWins);
 
-                //adds played game/last played date to playerTwo stats (human player two)
-                int tempWon = playerListArray.get(playerTwoArrayPosition).getWins();
-                int tempPlayed = playerListArray.get(playerTwoArrayPosition).getPlayedGames();
-                tempWon++;
-                tempPlayed++;
-                playerListArray.get(playerTwoArrayPosition).setWins(tempWon);
-                playerListArray.get(playerTwoArrayPosition).setPlayedGames(tempPlayed);
-                playerListArray.get(playerTwoArrayPosition).setLastPlayedGame(lastPlayedGame);
-            }
-            else if (playList[winningsSquares[0]] == 2) {
-                play_text.setText(playerNameTwo + " Wins!");
-                playerTwoWins++;
-                player_two_text.setText(playerNameTwo + " wins: " + playerTwoWins);
-
-                //adds played game/last played date to playerTwo stats (android player two)
-                int tempPlayed = playerListArray.get(playerArrayPosition).getPlayedGames();
-                tempPlayed++;
-                playerListArray.get(playerArrayPosition).setPlayedGames(tempPlayed);
-                playerListArray.get(playerArrayPosition).setLastPlayedGame(lastPlayedGame);
+                //adds played game/last played date to playerTwo stats if not android
+                if (twoPlayer) {
+                    int tempWon = playerListArray.get(playerTwoArrayPosition).getWins();
+                    int tempPlayed = playerListArray.get(playerTwoArrayPosition).getPlayedGames();
+                    tempWon++;
+                    tempPlayed++;
+                    playerListArray.get(playerTwoArrayPosition).setWins(tempWon);
+                    playerListArray.get(playerTwoArrayPosition).setPlayedGames(tempPlayed);
+                    playerListArray.get(playerTwoArrayPosition).setLastPlayedGame(lastPlayedGame);
+                }
             }
         }
     }
