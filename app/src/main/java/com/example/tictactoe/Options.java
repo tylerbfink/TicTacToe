@@ -29,8 +29,9 @@ public class Options extends AppCompatActivity {
     int playerTwoID;
 
     boolean twoPlayer = false;
+    boolean difficultyOn = false;
 
-    SwitchCompat two_player;
+    SwitchCompat two_player, difficulty_switch;
     Button use_selected;
     TextView player_two_text;
 
@@ -53,6 +54,7 @@ public class Options extends AppCompatActivity {
         player_two_text.setText("Player Two: " + playerTwoName);
 
         two_player = (SwitchCompat) findViewById(R.id.two_player_switch);
+        difficulty_switch = (SwitchCompat) findViewById(R.id.difficulty_switch);
 
         //restores two player switch position
         if (getPlayerTwoSelected("TWO_PLAYER", getBaseContext()) == true) {
@@ -88,6 +90,26 @@ public class Options extends AppCompatActivity {
         if (getPlayerTwoName("PLAYER_TWO_NAME", getBaseContext()) != null) {
             playerTwoName = getPlayerTwoName("PLAYER_TWO_NAME", getBaseContext());
             player_two_text.setText("Player Two: " + playerTwoName);
+        }
+
+        //difficulty switch listener
+        difficulty_switch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (difficulty_switch.isChecked()) {
+                    difficultyOn = true;
+                }
+                else {
+                    difficultyOn = false;
+                }
+                saveDifficulty("DIFFICULTY_ON", difficultyOn, getBaseContext());
+            }
+        });
+
+        //retrieves if difficulty on is selected
+        if (getDifficultyOn("DIFFICULTY_ON", getBaseContext()) == true) {
+            difficultyOn = getDifficultyOn("DIFFICULTY_ON", getBaseContext());
+            difficulty_switch.performClick();
         }
 
         //two player switch listener
@@ -172,6 +194,14 @@ public class Options extends AppCompatActivity {
         twoPlayerEditor.commit();
     }
 
+    //saves if difficulty switch on in sharedPreference
+    public static void saveDifficulty(String difficultyOnKey, Boolean difficultyOn, Context context) {
+        SharedPreferences difficultyOnShared = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor difficultyOnEditor = difficultyOnShared.edit();
+        difficultyOnEditor.putBoolean(difficultyOnKey, difficultyOn);
+        difficultyOnEditor.commit();
+    }
+
     //retrieves if two player selected
     public static Boolean getPlayerTwoSelected(String key, Context context) {
         SharedPreferences playerNameTwoShared = PreferenceManager.getDefaultSharedPreferences(context);
@@ -188,6 +218,12 @@ public class Options extends AppCompatActivity {
     public static int getPlayerTwoID(String key, Context context) {
         SharedPreferences playerTwoIDShared = PreferenceManager.getDefaultSharedPreferences(context);
         return playerTwoIDShared.getInt(key, 0 );
+    }
+
+    //retrieves if difficulty is on
+    public static boolean getDifficultyOn(String key, Context context) {
+        SharedPreferences difficultyOnShared = PreferenceManager.getDefaultSharedPreferences(context);
+        return difficultyOnShared.getBoolean(key, false);
     }
 
     @Override

@@ -35,6 +35,7 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
 
     boolean twoPlayer = false;
     boolean playerOneTurn = true;
+    boolean difficultyOn = false;
 
     String playerNameOne;
     String playerNameTwo = "Android";
@@ -62,6 +63,11 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
 
         //retrieves players from saved data file
         playerListArray = playerData.readFile(getApplicationContext());
+
+        //retrieves difficulty on from shared preferences
+        if (Options.getDifficultyOn("DIFFICULTY_ON", getBaseContext()) != false) {
+            difficultyOn = true;
+        }
 
         //retrieves current player from shared preferences or array if no shared preference
         if (ChangePlayer.getPlayerName("CURRENT_PLAYER", getBaseContext()) != null) {
@@ -649,7 +655,6 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
 
     //public class AndroidGetPlay extends AsyncTask<Integer, String, Integer> {
     public class AndroidGetPlay extends AsyncTask<Integer, String, Integer> {
-        private Handler handler = new Handler();
 
         @Override
         protected void onPreExecute() {
@@ -660,12 +665,363 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
         protected Integer doInBackground(Integer... integer) {
 
             Random generator = new Random();
-            nextPlay = generator.nextInt(9);
-            while (playList[nextPlay] != 0) {
+
+            if (!difficultyOn) {
                 nextPlay = generator.nextInt(9);
+                while (playList[nextPlay] != 0) {
+                    nextPlay = generator.nextInt(9);
+                }
             }
 
-            return null;
+            else {
+                ArrayList<Integer> blockList = new ArrayList();
+                ArrayList<Integer> winList = new ArrayList();
+
+                //searches for wins
+                if (playList[0] == 2) {
+                    if (playList[1] == 2 && playList[2] == 0) {
+                        winList.add(2);
+                    }
+                    if (playList[2] == 2 && playList[1] == 0) {
+                        winList.add(1);
+                    }
+                    if (playList[3] == 2 && playList[6] == 0) {
+                        winList.add(6);
+                    }
+                    if (playList[4] == 2 && playList[8] == 0) {
+                        winList.add(8);
+                    }
+                    if (playList[6] == 2 && playList[3] == 0) {
+                        winList.add(3);
+                    }
+                    if (playList[8] == 2 && playList[4] == 0) {
+                        winList.add(4);
+                    }
+                }
+                if (playList[1] == 2) {
+                    if (playList[0] == 2 && playList[2] == 0) {
+                        winList.add(2);
+                    }
+                    if (playList[2] == 2 && playList[0] == 0) {
+                        winList.add(0);
+                    }
+                    if (playList[4] == 2 && playList[7] == 0) {
+                        winList.add(7);
+                    }
+                    if (playList[7] == 2 && playList[4] == 0) {
+                        winList.add(4);
+                    }
+                }
+                if (playList[2] == 2) {
+                    if (playList[0] == 2 && playList[1] == 0) {
+                        winList.add(1);
+                    }
+                    if (playList[1] == 2 && playList[0] == 0) {
+                        winList.add(0);
+                    }
+                    if (playList[4] == 2 && playList[6] == 0) {
+                        winList.add(6);
+                    }
+                    if (playList[5] == 2 && playList[8] == 0) {
+                        winList.add(8);
+                    }
+                    if (playList[6] == 2 && playList[4] == 0) {
+                        winList.add(4);
+                    }
+                    if (playList[8] == 2 && playList[5] == 0) {
+                        winList.add(5);
+                    }
+                }
+                if (playList[3] == 2) {
+                    if (playList[0] == 2 && playList[6] == 0) {
+                        winList.add(6);
+                    }
+                    if (playList[4] == 2 && playList[5] == 0) {
+                        winList.add(5);
+                    }
+                    if (playList[5] == 2 && playList[4] == 0) {
+                        winList.add(4);
+                    }
+                    if (playList[6] == 2 && playList[0] == 0) {
+                        winList.add(0);
+                    }
+                }
+                if (playList[4] == 2) {
+                    if (playList[0] == 2 && playList[8] == 0) {
+                        winList.add(8);
+                    }
+                    if (playList[1] == 2 && playList[7] == 0) {
+                        winList.add(7);
+                    }
+                    if (playList[2] == 2 && playList[6] == 0) {
+                        winList.add(6);
+                    }
+                    if (playList[3] == 2 && playList[5] == 0) {
+                        winList.add(5);
+                    }
+                    if (playList[5] == 2 && playList[3] == 0) {
+                        winList.add(3);
+                    }
+                    if (playList[6] == 2 && playList[2] == 0) {
+                        winList.add(2);
+                    }
+                    if (playList[7] == 2 && playList[1] == 0) {
+                        winList.add(1);
+                    }
+                    if (playList[8] == 2 && playList[0] == 0) {
+                        winList.add(0);
+                    }
+                }
+                if (playList[5] == 2) {
+                    if (playList[2] == 2 && playList[8] == 0) {
+                        winList.add(8);
+                    }
+                    if (playList[3] == 2 && playList[4] == 0) {
+                        winList.add(4);
+                    }
+                    if (playList[4] == 2 && playList[3] == 0) {
+                        winList.add(3);
+                    }
+                    if (playList[8] == 2 && playList[2] == 0) {
+                        winList.add(2);
+                    }
+                }
+                if (playList[6] == 2) {
+                    if (playList[0] == 2 && playList[3] == 0) {
+                        winList.add(3);
+                    }
+                    if (playList[2] == 2 && playList[4] == 0) {
+                        winList.add(4);
+                    }
+                    if (playList[3] == 2 && playList[0] == 0) {
+                        winList.add(0);
+                    }
+                    if (playList[4] == 2 && playList[2] == 0) {
+                        winList.add(2);
+                    }
+                    if (playList[7] == 2 && playList[8] == 0) {
+                        winList.add(8);
+                    }
+                    if (playList[8] == 2 && playList[7] == 0) {
+                        winList.add(7);
+                    }
+                }
+                if (playList[7] == 2) {
+                    if (playList[1] == 2 && playList[4] == 0) {
+                        winList.add(4);
+                    }
+                    if (playList[4] == 2 && playList[1] == 0) {
+                        winList.add(1);
+                    }
+                    if (playList[6] == 2 && playList[8] == 0) {
+                        winList.add(8);
+                    }
+                    if (playList[8] == 2 && playList[6] == 0) {
+                        winList.add(6);
+                    }
+                }
+                if (playList[8] == 2) {
+                    if (playList[0] == 2 && playList[4] == 0) {
+                        winList.add(4);
+                    }
+                    if (playList[2] == 2 && playList[5] == 0) {
+                        winList.add(5);
+                    }
+                    if (playList[4] == 2 && playList[0] == 0) {
+                        winList.add(0);
+                    }
+                    if (playList[5] == 2 && playList[2] == 0) {
+                        winList.add(2);
+                    }
+                    if (playList[6] == 2 && playList[7] == 0) {
+                        winList.add(7);
+                    }
+                    if (playList[7] == 2 && playList[6] == 0) {
+                        winList.add(6);
+                    }
+                }
+
+                //searches for blocks
+                if (playList[0] == 1) {
+                    if (playList[1] == 1 && playList[2] == 0) {
+                        blockList.add(2);
+                    }
+                    if (playList[2] == 1 && playList[1] == 0) {
+                        blockList.add(1);
+                    }
+                    if (playList[3] == 1 && playList[6] == 0) {
+                        blockList.add(6);
+                    }
+                    if (playList[4] == 1 && playList[8] == 0) {
+                        blockList.add(8);
+                    }
+                    if (playList[6] == 1 && playList[3] == 0) {
+                        blockList.add(3);
+                    }
+                    if (playList[8] == 1 && playList[4] == 0) {
+                        blockList.add(4);
+                    }
+                }
+                if (playList[1] == 1) {
+                    if (playList[0] == 1 && playList[2] == 0) {
+                        blockList.add(2);
+                    }
+                    if (playList[2] == 1 && playList[0] == 0) {
+                        blockList.add(0);
+                    }
+                    if (playList[4] == 1 && playList[7] == 0) {
+                        blockList.add(7);
+                    }
+                    if (playList[7] == 1 && playList[4] == 0) {
+                        blockList.add(4);
+                    }
+                }
+                if (playList[2] == 1) {
+                    if (playList[0] == 1 && playList[1] == 0) {
+                        blockList.add(1);
+                    }
+                    if (playList[1] == 1 && playList[0] == 0) {
+                        blockList.add(0);
+                    }
+                    if (playList[4] == 1 && playList[6] == 0) {
+                        blockList.add(6);
+                    }
+                    if (playList[5] == 1 && playList[8] == 0) {
+                        blockList.add(8);
+                    }
+                    if (playList[6] == 1 && playList[4] == 0) {
+                        blockList.add(4);
+                    }
+                    if (playList[8] == 1 && playList[5] == 0) {
+                        blockList.add(5);
+                    }
+                }
+                if (playList[3] == 1) {
+                    if (playList[0] == 1 && playList[6] == 0) {
+                        blockList.add(6);
+                    }
+                    if (playList[4] == 1 && playList[5] == 0) {
+                        blockList.add(5);
+                    }
+                    if (playList[5] == 1 && playList[4] == 0) {
+                        blockList.add(4);
+                    }
+                    if (playList[6] == 1 && playList[0] == 0) {
+                        blockList.add(0);
+                    }
+                }
+                if (playList[4] == 1) {
+                    if (playList[0] == 1 && playList[8] == 0) {
+                        blockList.add(8);
+                    }
+                    if (playList[1] == 1 && playList[7] == 0) {
+                        blockList.add(7);
+                    }
+                    if (playList[2] == 1 && playList[6] == 0) {
+                        blockList.add(6);
+                    }
+                    if (playList[3] == 1 && playList[5] == 0) {
+                        blockList.add(5);
+                    }
+                    if (playList[5] == 1 && playList[3] == 0) {
+                        blockList.add(3);
+                    }
+                    if (playList[6] == 1 && playList[2] == 0) {
+                        blockList.add(2);
+                    }
+                    if (playList[7] == 1 && playList[1] == 0) {
+                        blockList.add(1);
+                    }
+                    if (playList[8] == 1 && playList[0] == 0) {
+                        blockList.add(0);
+                    }
+                }
+                if (playList[5] == 1) {
+                    if (playList[2] == 1 && playList[8] == 0) {
+                        blockList.add(8);
+                    }
+                    if (playList[3] == 1 && playList[4] == 0) {
+                        blockList.add(4);
+                    }
+                    if (playList[4] == 1 && playList[3] == 0) {
+                        blockList.add(3);
+                    }
+                    if (playList[8] == 1 && playList[2] == 0) {
+                        blockList.add(2);
+                    }
+                }
+                if (playList[6] == 1) {
+                    if (playList[0] == 1 && playList[3] == 0) {
+                        blockList.add(3);
+                    }
+                    if (playList[2] == 1 && playList[4] == 0) {
+                        blockList.add(4);
+                    }
+                    if (playList[3] == 1 && playList[0] == 0) {
+                        blockList.add(0);
+                    }
+                    if (playList[4] == 1 && playList[2] == 0) {
+                        blockList.add(2);
+                    }
+                    if (playList[7] == 1 && playList[8] == 0) {
+                        blockList.add(8);
+                    }
+                    if (playList[8] == 1 && playList[7] == 0) {
+                        blockList.add(7);
+                    }
+                }
+                if (playList[7] == 1) {
+                    if (playList[1] == 1 && playList[4] == 0) {
+                        blockList.add(4);
+                    }
+                    if (playList[4] == 1 && playList[1] == 0) {
+                        blockList.add(1);
+                    }
+                    if (playList[6] == 1 && playList[8] == 0) {
+                        blockList.add(8);
+                    }
+                    if (playList[8] == 1 && playList[6] == 0) {
+                        blockList.add(6);
+                    }
+                }
+                if (playList[8] == 1) {
+                    if (playList[0] == 1 && playList[4] == 0) {
+                        blockList.add(4);
+                    }
+                    if (playList[2] == 1 && playList[5] == 0) {
+                        blockList.add(5);
+                    }
+                    if (playList[4] == 1 && playList[0] == 0) {
+                        blockList.add(0);
+                    }
+                    if (playList[5] == 1 && playList[2] == 0) {
+                        blockList.add(2);
+                    }
+                    if (playList[6] == 1 && playList[7] == 0) {
+                        blockList.add(7);
+                    }
+                    if (playList[7] == 1 && playList[6] == 0) {
+                        blockList.add(6);
+                    }
+                }
+
+                if (!winList.isEmpty()) {
+                    int tempNextPlay = generator.nextInt(winList.size());
+                    nextPlay = winList.get(tempNextPlay);
+                }
+                else if (!blockList.isEmpty()) {
+                    int tempNextPlay = generator.nextInt(blockList.size());
+                    nextPlay = blockList.get(tempNextPlay);
+                }
+                else {
+                    nextPlay = generator.nextInt(9);
+                    while (playList[nextPlay] != 0) {
+                        nextPlay = generator.nextInt(9);
+                    };
+                }
+            }
+                return null;
+
         }
 
         @Override
