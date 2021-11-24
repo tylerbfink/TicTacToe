@@ -549,6 +549,27 @@ public class GamePlay extends AppCompatActivity implements View.OnClickListener 
                 playerListArray.get(playerArrayPosition).setLastPlayedGame(lastPlayedGame);
             }
         }
+        if (!winner && playCount == 9) {
+            disableButtons();
+            play_text.setText("Cat's Game!");
+            cat_image.setAlpha(1000);
+
+            String pattern = "dd MMM yyyy - h:mm:ss a";
+            SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+            String lastPlayedGame = dateFormat.format(new Date());
+
+            int tempPlayed = playerListArray.get(playerArrayPosition).getPlayedGames();
+            tempPlayed++;
+            playerListArray.get(playerArrayPosition).setPlayedGames(tempPlayed);
+            playerListArray.get(playerArrayPosition).setLastPlayedGame(lastPlayedGame);
+
+            if (twoPlayer) {
+                int tempPlayerTwoPlayed = playerListArray.get(playerTwoArrayPosition).getPlayedGames();
+                tempPlayerTwoPlayed++;
+                playerListArray.get(playerTwoArrayPosition).setPlayedGames(tempPlayerTwoPlayed);
+                playerListArray.get(playerTwoArrayPosition).setLastPlayedGame(lastPlayedGame);
+            }
+        }
     }
 
     //sets winnings squares stand out colours
